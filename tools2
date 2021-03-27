@@ -39,6 +39,9 @@ function f_hora()
 function f_atualiza() 
 {
 	apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean && apt-get clean
+	cd /etc/scripts
+	curl https://raw.githubusercontent.com/atedim/start/main/tools2 -o tools
+	chmod u+x tools
 }
 
 
@@ -295,13 +298,25 @@ case $1 in
 
 
 	*)
-		echo Uso Incorreto. {Born = Cria arquivos do FTP e SMB}
-		echo Uso Incorreto. {Atualiza = Atualiza TOTALMENTE o Sistema operacional}
-		echo Uso Incorreto. {Rack = Monta storages do NAS e FTP}
-		echo Uso Incorreto. {On = Monta DISCOS LOCAIS em JBOD}
-		echo Uso Incorreto. {Off = Desmonta DISCOS LOCAIS em JBOD}
-		echo Uso Incorreto. {Restart = Reinicia Sistema Operacional}
-		echo Uso Incorreto. {Sync = Sincroniza Storages}
+		echo ##########################################################
+		echo ###   Tools ver 0.1                                    ###
+		echo ##########################################################
+		echo #	                                                      #
+		echo #  born = Cria arquivos do FTP e SMB                     #
+		echo #	                                                      #
+		echo #  atualiza = Atualiza TOTALMENTE o Sistema operacional  #
+		echo #	                                                      #
+		echo #  rack = Monta storages do NAS e FTP                    #
+		echo #	                                                      #
+		echo #  on = Monta DISCOS LOCAIS em JBOD                      #
+		echo #	                                                      #
+		echo #  off = Desmonta DISCOS LOCAIS em JBOD                  #
+		echo #	                                                      #
+		echo #  restart = Reinicia Sistema Operacional                #
+		echo #	                                                      #
+		echo #  sync = Sincroniza Storages                            #
+		echo #	                                                      #
+		echo ##########################################################
 		exit 1
 
 esac
