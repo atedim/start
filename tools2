@@ -1,0 +1,277 @@
+#!/bin/bash
+
+####Váriáveis####
+RAIZ=/work
+#DISCOS=/work/disks
+D_1=/work/disks/8pd1
+D_2=/work/disks/8pd2
+D_3=/work/disks/8pd3
+D_4=/work/disks/8pd4
+D_5=/work/disks/8pd5
+D_6=/work/disks/8pd6
+D_7=/work/disks/8pd7
+D_8=/work/disks/8pd8
+D_160=/work/rack/160
+#D_161=/work/rack/161
+#D_162=/work/rack/162
+D_163=/work/rack/163
+#D_164=/work/rack/164
+#D_165=/work/rack/165
+#D_166=/work/rack/166
+#D_ALL=/work/all
+#D_SILVER=/work/silver
+#D_BLACK=/work/black
+O_160=//192.168.100.160/dados
+O_163=//192.168.100.163/dados
+LIMITE=50G
+O_SKIPPER=/work/rack/163/Skipper/
+D_SKIPPER=/work/all/Dados
+O_GDRIVE=/work/rack/160/remoto/
+D_GDRIVE=/work/all/GDrive
+A_BKP=rack.tgz
+PASTAS='/etc/scripts /etc/samba/smb.conf /etc/rc.local /etc/ssh/sshd_config /root/.bashrc /etc/vsftpd.conf'
+SAMBA='/etc/samba/smb.conf'
+LOG='/work/all/log.txt'
+#AMBIENTE='PATH="/etc/scripts:$PATH"'
+#LBASH='/root/.bashrc'
+#LFSTAB='/etc/fstab'
+FTP='/etc/vsftpd.conf'
+####Váriáveis####
+
+
+####Funções####
+
+
+function f_hora() 
+{
+	ntpdate pool.ntp.org
+}
+
+function f_atualiza() 
+{
+	apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean && apt-get clean
+}
+
+
+function f_desmonta() 
+{
+	cd /
+	umount -f $D_160
+	umount -f $D_161
+	umount -f $D_162
+	umount -f $D_163
+	umount -f $D_164
+	umount -f $D_165
+	umount -f $D_166
+	umount -f $D_ALL
+	umount -f $D_SILVER
+	umount -f $D_BLACK
+}
+
+function f_perm() 
+{
+	chmod -R 777 $RAIZ
+}
+
+function f_NAS() 
+{
+	mount -t cifs -o rw,guest,vers=2.0 $O_160 $D_160
+	mount -t cifs -o rw,guest,vers=2.0 $O_163 $D_163
+}
+
+function f_junta() 
+{
+	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5,$D_6,$D_7,D_8 $D_ALL -o allow_other -o mlimit=LIMITE
+#	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5 $D_BLACK -o allow_other -o mlimit=LIMITE
+#	mhddfs $D_6,$D_7 $D_SILVER -o allow_other -o mlimit=LIMITE
+}
+
+function f_sync() 
+{
+	rsync -avh --delete --info=progress2 $O_SKIPPER $D_SKIPPER
+	rsync -avh --delete --info=progress2 $O_GDRIVE $D_GDRIVE
+}
+
+
+function f_ftpON() 
+{
+	/etc/init.d/vsftpd start
+}
+
+function f_ftpOFF() 
+{
+	/etc/init.d/vsftpd stop
+}
+
+
+function f_samba() 
+{
+	cat > $SAMBA <<EOT 
+
+[global]
+workgroup = workgroup
+server role = standalone server
+security = user
+map to guest = Bad Password
+
+[8preta]
+path = /work/gavetas/8preta
+writable = yes
+browseable = yes
+guest ok = yes
+create mask = 0777
+directory mask = 0777
+
+[5preta]
+path = /work/gavetas/5preta
+writable = yes
+browseable = yes
+guest ok = yes
+create mask = 0777
+directory mask = 0777
+
+[2prata]
+path = /work/gavetas/2prata
+writable = yes
+browseable = yes
+guest ok = yes
+create mask = 0777
+directory mask = 0777
+
+[rack]
+path = /work/rack
+writable = yes
+browseable = yes
+guest ok = yes
+create mask = 0777
+directory mask = 0777
+
+[disks]
+path = /work/disks
+writable = yes
+browseable = yes
+guest ok = yes
+create mask = 0777
+directory mask = 0777
+
+[scripts]
+path = /etc/scripts
+writable = yes
+browseable = yes
+guest ok = yes
+create mask = 0777
+directory mask = 0777
+EOT
+}
+
+function f_ftp() 
+	{
+		cat > $FTP <<EOT 
+
+listen=yes
+anonymous_enable=NO
+local_enable=YES
+use_localtime=YES
+xferlog_enable=YES
+connect_from_port_20=YES
+idle_session_timeout=600
+ftpd_banner=Welcome to Underground FTP service.
+secure_chroot_dir=/var/run/vsftpd/empty
+pam_service_name=vsftpd
+rsa_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+rsa_private_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+ssl_enable=NO
+tcp_wrappers=YES
+local_root=/work
+EOT
+	}	
+
+
+####Funções####
+
+case $1 in 
+	
+	bkp)
+		echo -n  Backup de pastas e configuracoes ...
+		f_hora
+		f_BKP
+		echo Concluido.
+
+	;;
+
+	atualiza)
+		echo -n  Atualizando Sistema Operacional Completo ...
+		f_hora
+		f_atualiza
+		echo Concluido.
+
+	;;
+
+	perm)
+		echo -n  Ajustando permissao de $DISCOS ...
+		f_perm
+		echo Concluido.
+
+	;;
+
+	
+	rack)
+		echo -n  Montando discos NAS e iniciando serviços ...
+		f_desmonta
+		f_hora
+		f_power
+		f_NAS
+		f_ftpON
+		echo Concluido.
+
+	;;
+
+	sync)
+		echo -n  Sincronizando discos ...
+		f_hora
+		f_power
+		f_junta
+		f_NAS
+		f_sync
+		f_power
+		f_desmonta
+		echo Concluido.
+
+	;;
+
+	on)
+		echo -n  Monta DISCOS LOCAIS em JBOD ...
+		f_desmonta
+		f_hora
+		f_power
+		f_junta
+		echo Concluido.
+
+	;;
+
+	off)
+		echo -n  Desmontando discos NAS e parando serviços ...
+		f_hora
+		f_ftpOFF
+		f_desmonta
+		f_allpower
+		echo Concluido.
+
+	;;
+
+
+	restart)
+		echo -n  Reiniciando serviços de rede ...
+		f_hora
+		f_servicos		
+		echo Concluido.
+
+	;;
+
+
+
+	*)
+		echo Uso Incorreto. {Tente start ou stop ou restart}
+		exit 1
+
+esac
