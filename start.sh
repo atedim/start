@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ -d "/work" ] 
+then
+    echo "Sistema ja esta Pronto, nada será alterado." 
+else
+    echo "Sistema Limpo, Preparando Ambiente inicial."
+
 ###Let the Carnage begins###
 sudo su
 ###Let the Carnage begins###
@@ -63,3 +69,7 @@ useradd -p $(openssl passwd -1 mustelide) ftplogan
 #redifine senha caso ja exista
 echo -e "mustelide\nmustelide" | passwd ftplogan
 ###Cria usuario FTP###
+
+
+
+fi
