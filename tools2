@@ -44,6 +44,31 @@ function f_atualiza()
 }
 
 
+function f_monta8() 
+{
+
+	###monta unidades###
+	mount -L 5pd1 /work/disks/5pd1
+	mount -L 5pd2 /work/disks/5pd2
+	mount -L 5pd3 /work/disks/5pd3
+	mount -L 5pd4 /work/disks/5pd4
+	mount -L 5pd5 /work/disks/5pd5
+	mount -L 8pd1 /work/disks/8pd1
+	mount -L 8pd2 /work/disks/8pd2
+	mount -L 8pd3 /work/disks/8pd3
+	mount -L 8pd4 /work/disks/8pd4
+	mount -L 8pd5 /work/disks/8pd5
+	mount -L 8pd6 /work/disks/8pd6
+	mount -L 8pd7 /work/disks/8pd7
+	mount -L 8pd8 /work/disks/8pd8
+	mount -L 2sd1 /work/disks/2sd1
+	mount -L 2sd2 /work/disks/2sd2
+	###monta unidades###
+
+}
+
+
+
 function f_desmonta() 
 {
 	cd /
@@ -222,7 +247,7 @@ case $1 in
 	;;
 
 	off)
-		echo -n  Desmontando discos NAS e parando serviços ...
+		echo -n  Desmontando discos NAS e parando servicos ...
 		f_hora
 		f_ftpOFF
 		f_desmonta
@@ -235,6 +260,7 @@ case $1 in
 	on)
 		echo -n  Monta DISCOS LOCAIS em JBOD ...
 		f_desmonta
+		f_monta8
 		f_hora
 		f_perm
 		f_junta
