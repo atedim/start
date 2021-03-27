@@ -46,8 +46,6 @@ function f_atualiza()
 
 function f_monta8() 
 {
-
-	###monta unidades###
 	#mount -L 5pd1 /work/disks/5pd1
 	#mount -L 5pd2 /work/disks/5pd2
 	#mount -L 5pd3 /work/disks/5pd3
@@ -63,10 +61,22 @@ function f_monta8()
 	mount -L 8pd8 /work/disks/8pd8
 	#mount -L 2sd1 /work/disks/2sd1
 	#mount -L 2sd2 /work/disks/2sd2
-	###monta unidades###
-
 }
 
+function f_monta5() 
+{
+	mount -L 5pd1 /work/disks/5pd1
+	mount -L 5pd2 /work/disks/5pd2
+	mount -L 5pd3 /work/disks/5pd3
+	mount -L 5pd4 /work/disks/5pd4
+	mount -L 5pd5 /work/disks/5pd5
+}
+
+function f_monta2() 
+{
+	mount -L 2sd1 /work/disks/2sd1
+	mount -L 2sd2 /work/disks/2sd2
+}
 
 
 function f_desmonta() 
@@ -77,14 +87,13 @@ function f_desmonta()
 	umount -f $D_8PRETA
 	umount -f $D_5PRETA
 	umount -f $D_2SILVER
-	#umount /work/disks/5pd[1-5]
-	#umount /work/disks/8pd[1-8]
-	#umount /work/disks/2sd[1-2]
-	#umount /work/gavetas/5preta
-	#umount /work/gavetas/8preta
-	#umount /work/gavetas/2prata
-	#umount /work/rack/16[0-9]
-lsu
+	umount /work/disks/5pd[1-5]
+	umount /work/disks/8pd[1-8]
+	umount /work/disks/2sd[1-2]
+	umount /work/gavetas/5preta
+	umount /work/gavetas/8preta
+	umount /work/gavetas/2prata
+	umount /work/rack/16[0-9]
 }
 
 function f_perm() 
@@ -98,12 +107,23 @@ function f_NAS()
 	mount -t cifs -o rw,guest,vers=2.0 $O_163 $D_163
 }
 
-function f_junta() 
+function f_junta8() 
 {
 	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5,$D_6,$D_7,$D_8 $D_8PRETA -o allow_other -o mlimit=LIMITE
-#	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5 $D_5PRETA -o allow_other -o mlimit=LIMITE
-#	mhddfs $D_6,$D_7 $D_2SILVER -o allow_other -o mlimit=LIMITE
 }
+
+function f_junta5() 
+{
+	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5 $D_5PRETA -o allow_other -o mlimit=LIMITE
+}
+
+
+function f_junta2() 
+{
+	mhddfs $D_6,$D_7 $D_2SILVER -o allow_other -o mlimit=LIMITE
+}
+
+
 
 function f_sync() 
 {
@@ -271,7 +291,7 @@ case $1 in
 		f_desmonta
 		f_monta8
 		f_perm
-		f_junta
+		f_junta8
 		echo Concluido.
 
 	;;
@@ -281,7 +301,7 @@ case $1 in
 		echo -n  Sincronizando discos ...
 		f_hora
 		f_perm
-		f_junta
+		f_junta8
 		f_NAS
 		f_sync
 		f_perm
@@ -289,9 +309,6 @@ case $1 in
 		echo Concluido.
 
 	;;
-
-
-	
 
 
 
