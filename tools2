@@ -191,13 +191,14 @@ EOT
 
 case $1 in 
 	
-	bkp)
-		echo -n  Backup de pastas e configuracoes ...
-		f_hora
-		f_BKP
+	born)
+		echo -n  Configurando serviços ...
+		f_ftp
+		f_samba
 		echo Concluido.
 
 	;;
+
 
 	atualiza)
 		echo -n  Atualizando Sistema Operacional Completo ...
