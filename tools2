@@ -290,6 +290,7 @@ case $1 in
 	sync)
 		echo -n  Sincronizando discos ...
 		f_hora
+		f_desmonta		
 		#f_perm
 		f_junta8
 		f_NAS
