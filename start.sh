@@ -7,7 +7,7 @@ else
     echo "Sistema Limpo, Preparando Ambiente inicial."
 
 ###Let the Carnage begins###
-sudo su
+#sudo su
 ###Let the Carnage begins###
 
 
