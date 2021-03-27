@@ -199,10 +199,10 @@ case $1 in
 
 	
 	rack)
-		echo -n  Montando discos NAS e iniciando serviços ...
+		echo -n  Montando discos NAS e iniciando servicos ...
 		f_desmonta
 		f_hora
-		f_power
+		f_perm
 		f_NAS
 		f_ftpON
 		echo Concluido.
@@ -212,11 +212,11 @@ case $1 in
 	sync)
 		echo -n  Sincronizando discos ...
 		f_hora
-		f_power
+		f_perm
 		f_junta
 		f_NAS
 		f_sync
-		f_power
+		f_perm
 		f_desmonta
 		echo Concluido.
 
@@ -226,7 +226,7 @@ case $1 in
 		echo -n  Monta DISCOS LOCAIS em JBOD ...
 		f_desmonta
 		f_hora
-		f_power
+		f_perm
 		f_junta
 		echo Concluido.
 
@@ -237,7 +237,7 @@ case $1 in
 		f_hora
 		f_ftpOFF
 		f_desmonta
-		f_allpower
+		f_perm
 		echo Concluido.
 
 	;;
