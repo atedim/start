@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###Let the Carnage begins###
-#sudo su
+sudo su
 ###Let the Carnage begins###
 
 
@@ -33,13 +33,13 @@ cd / && tar zcvfp etc.ORI.tgz /etc
 
 
 ###Ajusta ssh###
-#sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-#/etc/init.d/ssh restart
+sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+/etc/init.d/ssh restart
 ###Ajusta ssh###
 
 
 ###Insere Script to PATH###
-#sed -i -e '$a\' ~/.bashrc && echo 'export PATH=$PATH:/etc/scripts' >>~/.bashrc && sed -i -e '$a\' ~/.bashrc
+sed -i -e '$a\' ~/.bashrc && echo 'export PATH=$PATH:/etc/scripts' >>~/.bashrc && sed -i -e '$a\' ~/.bashrc
 ###Insere Script to PATH###
 
 
