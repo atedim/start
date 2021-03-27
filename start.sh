@@ -11,13 +11,6 @@ else
 ###Let the Carnage begins###
 
 
-###Atualiza data e hora###
-unlink /etc/localtime
-ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
-ntpdate pool.ntp.org
-###Atualiza data e hora###
-
-
 ##atualiza sources###
 apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean && apt-get clean
 ##atualiza sources###
@@ -26,6 +19,13 @@ apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean 
 ###instala basicos###
 apt-get install ntpdate rcconf mc rsync cifs-utils samba mhddfs htop ntfs-3g exfat-fuse exfat-utils iptraf net-tools ncdu screen vsftpd -y
 ###instala basicos###
+
+
+###Atualiza data e hora###
+unlink /etc/localtime
+ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+ntpdate pool.ntp.org
+###Atualiza data e hora###
 
 
 ##limpa espaço###
