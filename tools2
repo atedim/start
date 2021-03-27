@@ -13,10 +13,12 @@ D_7=/work/disks/8pd7
 D_8=/work/disks/8pd8
 D_160=/work/rack/160
 D_163=/work/rack/163
-#D_ALL=/work/all
+D_8PRETA=/work/gavetas/8preta
+D_5PRETA=/work/gavetas/5preta
+D_2SILVER=/work/gavetas/2prata
 O_160=//192.168.100.160/dados
 O_163=//192.168.100.163/dados
-LIMITE=50G
+LIMITE=100G
 O_SKIPPER=/work/rack/163/Skipper/
 D_SKIPPER=/work/all/Dados
 O_GDRIVE=/work/rack/160/remoto/
@@ -47,7 +49,9 @@ function f_desmonta()
 	cd /
 	umount -f $D_160
 	umount -f $D_163
-	#umount -f $D_ALL
+	umount -f $D_8PRETA
+	umount -f $D_5PRETA
+	umount -f $D_2SILVER
 }
 
 function f_perm() 
@@ -63,9 +67,9 @@ function f_NAS()
 
 function f_junta() 
 {
-	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5,$D_6,$D_7,D_8 $D_ALL -o allow_other -o mlimit=LIMITE
-#	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5 $D_BLACK -o allow_other -o mlimit=LIMITE
-#	mhddfs $D_6,$D_7 $D_SILVER -o allow_other -o mlimit=LIMITE
+	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5,$D_6,$D_7,D_8 $D_8PRETA -o allow_other -o mlimit=LIMITE
+#	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5 $D_5PRETA -o allow_other -o mlimit=LIMITE
+#	mhddfs $D_6,$D_7 $D_2SILVER -o allow_other -o mlimit=LIMITE
 }
 
 function f_sync() 
@@ -209,25 +213,10 @@ case $1 in
 
 	;;
 
-	sync)
-		echo -n  Sincronizando discos ...
+	restart)
+		echo -n  Reiniciando sistema Completo ...
 		f_hora
-		f_perm
-		f_junta
-		f_NAS
-		f_sync
-		f_perm
-		f_desmonta
-		echo Concluido.
-
-	;;
-
-	on)
-		echo -n  Monta DISCOS LOCAIS em JBOD ...
-		f_desmonta
-		f_hora
-		f_perm
-		f_junta
+		reboot	
 		echo Concluido.
 
 	;;
@@ -242,14 +231,33 @@ case $1 in
 
 	;;
 
-
-	restart)
-		echo -n  Reiniciando serviços de rede ...
+	
+	on)
+		echo -n  Monta DISCOS LOCAIS em JBOD ...
+		f_desmonta
 		f_hora
-		f_servicos		
+		f_perm
+		f_junta
 		echo Concluido.
 
 	;;
+
+
+	sync)
+		echo -n  Sincronizando discos ...
+		f_hora
+		f_perm
+		f_junta
+		f_NAS
+		f_sync
+		f_perm
+		f_desmonta
+		echo Concluido.
+
+	;;
+
+
+	
 
 
 
