@@ -117,8 +117,8 @@ function f_junta2()
 
 function f_sync() 
 {
-	rsync -avh --delete --info=progress2 $O_SKIPPER $D_SKIPPER
-	rsync -avh --delete --info=progress2 $O_GDRIVE $D_GDRIVE
+echo	rsync -avh --delete --info=progress2 $O_SKIPPER $D_SKIPPER
+echo	rsync -avh --delete --info=progress2 $O_GDRIVE $D_GDRIVE
 }
 
 
@@ -280,7 +280,7 @@ case $1 in
 		f_hora		
 		f_desmonta
 		f_monta8
-		f_perm
+		#f_perm
 		f_junta8
 		echo Concluido.
 
