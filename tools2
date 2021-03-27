@@ -48,11 +48,11 @@ function f_monta8()
 {
 
 	###monta unidades###
-	mount -L 5pd1 /work/disks/5pd1
-	mount -L 5pd2 /work/disks/5pd2
-	mount -L 5pd3 /work/disks/5pd3
-	mount -L 5pd4 /work/disks/5pd4
-	mount -L 5pd5 /work/disks/5pd5
+	#mount -L 5pd1 /work/disks/5pd1
+	#mount -L 5pd2 /work/disks/5pd2
+	#mount -L 5pd3 /work/disks/5pd3
+	#mount -L 5pd4 /work/disks/5pd4
+	#mount -L 5pd5 /work/disks/5pd5
 	mount -L 8pd1 /work/disks/8pd1
 	mount -L 8pd2 /work/disks/8pd2
 	mount -L 8pd3 /work/disks/8pd3
@@ -61,8 +61,8 @@ function f_monta8()
 	mount -L 8pd6 /work/disks/8pd6
 	mount -L 8pd7 /work/disks/8pd7
 	mount -L 8pd8 /work/disks/8pd8
-	mount -L 2sd1 /work/disks/2sd1
-	mount -L 2sd2 /work/disks/2sd2
+	#mount -L 2sd1 /work/disks/2sd1
+	#mount -L 2sd2 /work/disks/2sd2
 	###monta unidades###
 
 }
@@ -77,6 +77,14 @@ function f_desmonta()
 	umount -f $D_8PRETA
 	umount -f $D_5PRETA
 	umount -f $D_2SILVER
+	#umount /work/disks/5pd[1-5]
+	#umount /work/disks/8pd[1-8]
+	#umount /work/disks/2sd[1-2]
+	#umount /work/gavetas/5preta
+	#umount /work/gavetas/8preta
+	#umount /work/gavetas/2prata
+	#umount /work/rack/16[0-9]
+lsu
 }
 
 function f_perm() 
@@ -259,9 +267,9 @@ case $1 in
 	
 	on)
 		echo -n  Monta DISCOS LOCAIS em JBOD ...
+		f_hora		
 		f_desmonta
 		f_monta8
-		f_hora
 		f_perm
 		f_junta
 		echo Concluido.
