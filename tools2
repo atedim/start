@@ -47,7 +47,7 @@ function f_desmonta()
 	cd /
 	umount -f $D_160
 	umount -f $D_163
-	umount -f $D_ALL
+	#umount -f $D_ALL
 }
 
 function f_perm() 
