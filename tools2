@@ -23,9 +23,7 @@ O_SKIPPER=/work/rack/163/Skipper/
 D_SKIPPER=/work/gavetas/8preta/Dados
 O_GDRIVE=/work/rack/160/remoto/
 D_GDRIVE=/work/gavetas/8preta/GDrive
-PASTAS='/etc/scripts /etc/samba/smb.conf /etc/rc.local /etc/ssh/sshd_config /root/.bashrc /etc/vsftpd.conf'
 SAMBA='/etc/samba/smb.conf'
-LOG='/work/all/log.txt'
 FTP='/etc/vsftpd.conf'
 ####Váriáveis####
 
@@ -78,11 +76,11 @@ function f_desmonta()
 	umount -f $D_160
 	umount -f $D_163
 	umount -f $D_8PRETA
-	umount -f $D_5PRETA
-	umount -f $D_2SILVER
-	umount /work/disks/5pd[1-5]
+	#umount -f $D_5PRETA
+	#umount -f $D_2SILVER
+	#umount /work/disks/5pd[1-5]
 	umount /work/disks/8pd[1-8]
-	umount /work/disks/2sd[1-2]
+	#umount /work/disks/2sd[1-2]
 	#umount /work/rack/16[0-9]
 }
 
@@ -151,21 +149,21 @@ guest ok = yes
 create mask = 0777
 directory mask = 0777
 
-[5preta]
-path = /work/gavetas/5preta
-writable = yes
-browseable = yes
-guest ok = yes
-create mask = 0777
-directory mask = 0777
+#[5preta]
+#path = /work/gavetas/5preta
+#writable = yes
+#browseable = yes
+#guest ok = yes
+#create mask = 0777
+#directory mask = 0777
 
-[2prata]
-path = /work/gavetas/2prata
-writable = yes
-browseable = yes
-guest ok = yes
-create mask = 0777
-directory mask = 0777
+#[2prata]
+#path = /work/gavetas/2prata
+#writable = yes
+#browseable = yes
+#guest ok = yes
+#create mask = 0777
+#directory mask = 0777
 
 [rack]
 path = /work/rack
@@ -178,7 +176,7 @@ directory mask = 0777
 [disks]
 path = /work/disks
 writable = yes
-browseable = yes
+browseable = no
 guest ok = yes
 create mask = 0777
 directory mask = 0777
@@ -237,14 +235,7 @@ case $1 in
 
 	;;
 
-	perm)
-		echo -n  Ajustando permissao de $DISCOS ...
-		f_perm
-		echo Concluido.
-
-	;;
-
-	
+		
 	rack)
 		echo -n  Montando discos NAS e iniciando servicos ...
 		f_desmonta
@@ -304,7 +295,13 @@ case $1 in
 
 
 	*)
-		echo Uso Incorreto. {Tente start ou stop ou restart}
+		echo Uso Incorreto. {Born = Cria arquivos do FTP e SMB}
+		echo Uso Incorreto. {Atualiza = Atualiza TOTALMENTE o Sistema operacional}
+		echo Uso Incorreto. {Rack = Monta storages do NAS e FTP}
+		echo Uso Incorreto. {On = Monta DISCOS LOCAIS em JBOD}
+		echo Uso Incorreto. {Off = Desmonta DISCOS LOCAIS em JBOD}
+		echo Uso Incorreto. {Restart = Reinicia Sistema Operacional}
+		echo Uso Incorreto. {Sync = Sincroniza Storages}
 		exit 1
 
 esac
