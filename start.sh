@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ###Testa ROOT###
-#if [[ $EUID -ne 0 ]]; then
-#   echo "Rode o Script como ROOT" 
-#   exit
+if [[ $EUID -ne 0 ]]; then
+   echo "Rode o Script como ROOT" 
+   exit
 #fi
 ###Testa ROOT###
 
@@ -88,6 +88,5 @@ cd /etc/scripts
 curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools
 chmod u+x tools
 ###Baixa Script "Tools"###
-
 
 fi
