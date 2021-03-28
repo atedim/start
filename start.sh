@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ###Testa ROOT###
-if [[ $EUID -ne 0 ]]; then
-   echo "Rode o Script como ROOT" 
-   exit
+#if [[ $EUID -ne 0 ]]; then
+#   echo "Rode o Script como ROOT" 
+#   exit
 #fi
 ###Testa ROOT###
 
