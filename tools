@@ -41,6 +41,7 @@ function f_atualiza()
 	apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean && apt-get clean
 	cd /etc/scripts
 	mv tools tools.old
+	chmod u-x tools.old
 	curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools
 	chmod u+x tools
 }
