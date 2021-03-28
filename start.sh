@@ -71,5 +71,12 @@ echo -e "mustelide\nmustelide" | passwd ftplogan
 ###Cria usuario FTP###
 
 
+###Baixa Script "Tools"###
+mkdir /etc/scripts
+cd /etc/scripts
+curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools
+chmod u+x tools
+###Baixa Script "Tools"###
+
 
 fi
