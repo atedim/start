@@ -329,7 +329,7 @@ case $1 in
 		echo
 		echo  on = Monta DISCOS LOCAIS em JBOD
 		echo
-		echo  off = Desmonta DISCOS LOCAIS em JBOD
+		echo  off = Desmonta DISCOS LOCAIS em JBOD e para FTP
 		echo
 		echo  restart = Reinicia Sistema Operacional
 		echo
