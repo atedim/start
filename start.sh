@@ -3,7 +3,7 @@
 ###Testa ROOT###
 #if [[ $EUID -ne 0 ]]; then
 #   echo "Rode o Script como ROOT" 
-#   exit 1
+#   exit
 #fi
 ###Testa ROOT###
 
