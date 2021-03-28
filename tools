@@ -40,6 +40,7 @@ function f_atualiza()
 {
 	apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean && apt-get clean
 	cd /etc/scripts
+	mv tools tools.old
 	curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools
 	chmod u+x tools
 }
@@ -115,11 +116,22 @@ function f_junta2()
 }
 
 
+function f_temp() 
+{
+
+	clear 
+	cpu=$(</sys/class/thermal/thermal_zone0/temp)
+	echo "$(date) @ $(hostname)"
+	echo "-------------------------------------------"
+	echo "GPU => $(/opt/vc/bin/vcgencmd measure_temp)"
+	echo "CPU => $((cpu/1000))'C"
+}
+
 
 function f_sync() 
 {
-echo	rsync -avh --delete --info=progress2 $O_SKIPPER $D_SKIPPER
-echo	rsync -avh --delete --info=progress2 $O_GDRIVE $D_GDRIVE
+	rsync -avh --delete --info=progress2 $O_SKIPPER $D_SKIPPER
+	rsync -avh --delete --info=progress2 $O_GDRIVE $D_GDRIVE
 }
 
 
@@ -285,19 +297,26 @@ case $1 in
 		echo -n  Sincronizando discos ...
 		f_hora
 		f_desmonta		
-		#f_perm
+		f_perm
 		f_junta8
 		f_NAS
 		f_sync
-		#f_perm
+		f_perm
 		f_desmonta
 		echo Concluido.
 
 	;;
 
+	temp)
+		echo -n  Obtendo Temperatura do Sistema ...
+		f_temp
+		echo Concluido.
+
+	;;
 
 
 	*)
+		clear
 		echo 
 		echo Tools ver 0.1
 		echo 
