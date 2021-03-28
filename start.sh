@@ -1,10 +1,10 @@
 #!/bin/bash
 
 ###Testa ROOT###
-if [[ $EUID -ne 0 ]]; then
-   echo "Rode o Script como ROOT" 
-   exit 1
-fi
+#if [[ $EUID -ne 0 ]]; then
+#   echo "Rode o Script como ROOT" 
+#   exit 1
+#fi
 ###Testa ROOT###
 
 ###Testa primeira execução###
