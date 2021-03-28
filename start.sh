@@ -1,17 +1,19 @@
 #!/bin/bash
 
 ###Testa ROOT###
-#if [[ $EUID -ne 0 ]]; then
-#   echo "Rode o Script como ROOT" 
-#   exit
-#fi
+if [[ $EUID -ne 0 ]]; then
+   echo "Rode o Script como ROOT" 
+   exit
+fi
 ###Testa ROOT###
+
 
 ###Testa primeira execução###
 if [ -d "/work" ] 
 then
-    echo "Sistema ja esta Pronto, nada será alterado." 
-    echo "Atualizando O Script "Tools." 
+    	clear
+	echo "Sistema ja esta Pronto, nada será alterado." 
+    	echo "Atualizando O Script Tools." 
 	cd /etc/scripts
 	mv tools tools.old
 	chmod u-x tools.old
@@ -81,12 +83,12 @@ useradd -p $(openssl passwd -1 mustelide) ftplogan
 echo -e "mustelide\nmustelide" | passwd ftplogan
 ###Cria usuario FTP###
 
-
-###Baixa Script "Tools"###
+###Baixa Script Tools###
 mkdir /etc/scripts
 cd /etc/scripts
 curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools
 chmod u+x tools
-###Baixa Script "Tools"###
+###Baixa Script Tools###
 
 fi
+
