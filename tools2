@@ -298,25 +298,24 @@ case $1 in
 
 
 	*)
-		echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		echo @@@   Tools ver 0.1                                    @@@
-		echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		echo @	                                                      @
-		echo @  born = Cria arquivos do FTP e SMB                     @
-		echo @	                                                      @
-		echo @  atualiza = Atualiza TOTALMENTE o Sistema operacional  @
-		echo @	                                                      @
-		echo @  rack = Monta storages do NAS e FTP                    @
-		echo @	                                                      @
-		echo @  on = Monta DISCOS LOCAIS em JBOD                      @
-		echo @	                                                      @
-		echo @  off = Desmonta DISCOS LOCAIS em JBOD                  @
-		echo @	                                                      @
-		echo @  restart = Reinicia Sistema Operacional                @
-		echo @	                                                      @
-		echo @  sync = Sincroniza Storages                            @
-		echo @	                                                      @
-		echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		echo 
+		echo Tools ver 0.1
+		echo 
+		echo 
+		echo  born = Cria arquivos do FTP e SMB
+		echo 
+		echo  atualiza = Atualiza TOTALMENTE o Sistema operacional
+		echo
+		echo  rack = Monta storages do NAS e FTP
+		echo
+		echo  on = Monta DISCOS LOCAIS em JBOD
+		echo
+		echo  off = Desmonta DISCOS LOCAIS em JBOD
+		echo
+		echo  restart = Reinicia Sistema Operacional
+		echo
+		echo  sync = Sincroniza Storages
+		echo
 		exit 1
 
 esac
