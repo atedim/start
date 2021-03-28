@@ -105,16 +105,16 @@ function f_junta8()
 	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5,$D_6,$D_7,$D_8 $D_8PRETA -o allow_other -o mlimit=LIMITE
 }
 
-function f_junta5() 
-{
+#function f_junta5() 
+#{
 #	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5 $D_5PRETA -o allow_other -o mlimit=LIMITE
-}
+#}
 
 
-function f_junta2() 
-{
+#function f_junta2() 
+#{
 #	mhddfs $D_6,$D_7 $D_2SILVER -o allow_other -o mlimit=LIMITE
-}
+#}
 
 
 function f_temp() 
@@ -243,7 +243,7 @@ case $1 in
 	;;
 
 
-	atualiza)
+	update)
 		echo -n  Atualizando Sistema Operacional Completo ...
 		f_hora
 		f_atualiza
@@ -323,7 +323,7 @@ case $1 in
 		echo 
 		echo  born = Cria arquivos do FTP e SMB
 		echo 
-		echo  atualiza = Atualiza TOTALMENTE o Sistema operacional
+		echo  update = Atualiza TOTALMENTE o Sistema operacional
 		echo
 		echo  rack = Monta storages do NAS e FTP
 		echo
