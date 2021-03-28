@@ -1,14 +1,25 @@
 #!/bin/bash
 
+###Testa ROOT###
+if [[ $EUID -ne 0 ]]; then
+   echo "Rode o Script como ROOT" 
+   exit 1
+fi
+###Testa ROOT###
+
+###Testa primeira execução###
 if [ -d "/work" ] 
 then
     echo "Sistema ja esta Pronto, nada será alterado." 
+    echo "Atualizando O Script "Tools." 
+	cd /etc/scripts
+	mv tools tools.old
+	chmod u-x tools.old
+	curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools
+	chmod u+x tools
 else
     echo "Sistema Limpo, Preparando Ambiente inicial."
-
-###Let the Carnage begins###
-#sudo su
-###Let the Carnage begins###
+###Testa primeira execução###
 
 
 ##atualiza sources###
