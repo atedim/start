@@ -90,5 +90,11 @@ curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools
 chmod u+x tools
 ###Baixa Script Tools###
 
+###Tudo Pronto###
+echo "Sistema Ajustado."
+echo "Reinicie o sistema e execute o script TOOLS."
+###Tudo Pronto###
+
+
 fi
 
