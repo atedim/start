@@ -107,13 +107,13 @@ function f_junta8()
 
 function f_junta5() 
 {
-	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5 $D_5PRETA -o allow_other -o mlimit=LIMITE
+#	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5 $D_5PRETA -o allow_other -o mlimit=LIMITE
 }
 
 
 function f_junta2() 
 {
-	mhddfs $D_6,$D_7 $D_2SILVER -o allow_other -o mlimit=LIMITE
+#	mhddfs $D_6,$D_7 $D_2SILVER -o allow_other -o mlimit=LIMITE
 }
 
 
