@@ -310,8 +310,7 @@ case $1 in
 	temp)
 		echo -n  Obtendo Temperatura do Sistema ...
 		f_temp
-		echo Concluido.
-
+		
 	;;
 
 
@@ -334,6 +333,8 @@ case $1 in
 		echo  restart = Reinicia Sistema Operacional
 		echo
 		echo  sync = Sincroniza Storages
+		echo
+		echo  temp = Exibe Temperatura do Sistema
 		echo
 		exit 1
 

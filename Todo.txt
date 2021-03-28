@@ -1,0 +1,25 @@
+Start
+
+variavel de data e hora
+
+baixar scripts
+criar pasta /etc/scripts
+
+renomear tools2 -> tools
+colocar temperatura no tools
+colocar baixador do tools no start
+
+
+
+mkdir /etc/scripts
+cd /etc/scripts
+curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools
+chmod u+x tools
+
+
+
+
+cd /etc/scripts && rm tools && curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools && chmod u+x tools
+
+cd /etc/scripts && curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools && chmod u+x tools
+
