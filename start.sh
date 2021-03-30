@@ -78,7 +78,7 @@ mkdir -p /work/rack/16{0..9}
 
 
 ###Cria usuario FTP###
-useradd -p $(openssl passwd -1 mustelide) ftplogan
+useradd -p $(openssl passwd -1 mustelide) -m ftplogan
 #redifine senha caso ja exista
 echo -e "mustelide\nmustelide" | passwd ftplogan
 ###Cria usuario FTP###
