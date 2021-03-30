@@ -1,0 +1,3 @@
+As ROOT
+
+bash <(curl -s https://raw.githubusercontent.com/atedim/start/main/start.sh)

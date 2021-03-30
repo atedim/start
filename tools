@@ -38,6 +38,11 @@ FTP='/etc/vsftpd.conf'
 ####Funções####
 
 
+function f_basicos() 
+{
+	apt-get install ntpdate rcconf mc rsync cifs-utils samba mhddfs htop ntfs-3g exfat-fuse exfat-utils iptraf net-tools ncdu screen vsftpd -y
+}
+
 function f_hora() 
 {
 	ntpdate pool.ntp.org
@@ -243,6 +248,8 @@ case $1 in
 	
 	born)
 		echo -n  Configurando servicos ...
+		f_atualiza		
+		f_basicos
 		f_ftp
 		f_samba
 		echo Concluido.
