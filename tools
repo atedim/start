@@ -129,16 +129,27 @@ function f_junta8()
 #}
 
 
-function f_temp() 
+function f_info() 
 {
 
 	clear 
 	cpu=$(</sys/class/thermal/thermal_zone0/temp)
+	max=$(</sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq)
+	min=$(</sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq)
+	curr=$(</sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq)
 	echo "$(date) @ $(hostname)"
-	echo "-------------------------------------------"
-	echo "GPU => $(/opt/vc/bin/vcgencmd measure_temp)"
-	echo "CPU => $((cpu/1000))'C"
-}
+	echo "############################################"
+	echo "#            Device                        #"
+	echo "# $(tr -d '\0' </proc/device-tree/model)              #"  
+	echo "############################################"
+	echo "#          Temp in Celsius                 #"
+	echo "# CPU => $((cpu/1000))'C                              #"
+	echo "############################################"
+	echo "#          Frequency                       #"
+	echo "# CPU Max Frequency => $((max/1000)) Mhz            #"
+	echo "# CPU Min Frequency => $((min/1000)) Mhz             #"
+	echo "# CPU Current Frequency => $((curr/1000)) Mhz         #"
+	echo "############################################"}
 
 
 function f_sync() 
@@ -322,9 +333,9 @@ case $1 in
 
 	;;
 
-	temp)
-		echo -n  Obtendo Temperatura do Sistema ...
-		f_temp
+	info)
+		#echo -n  Obtendo Temperatura do Sistema ...
+		f_info
 		
 	;;
 
