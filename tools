@@ -1,12 +1,5 @@
 #!/bin/bash
 
-###Testa ROOT###
-if [[ $EUID -ne 0 ]]; then
-   echo "Rode o Script como ROOT" 
-   exit
-fi
-###Testa ROOT###
-
 ####Váriáveis####
 RAIZ=/work
 #DISCOS=/work/disks
@@ -37,11 +30,6 @@ FTP='/etc/vsftpd.conf'
 
 ####Funções####
 
-
-function f_basicos() 
-{
-	apt-get install ntpdate rcconf mc rsync cifs-utils samba mhddfs htop ntfs-3g exfat-fuse exfat-utils iptraf net-tools ncdu screen vsftpd -y
-}
 
 function f_hora() 
 {
@@ -149,7 +137,9 @@ function f_info()
 	echo "# CPU Max Frequency => $((max/1000)) Mhz            #"
 	echo "# CPU Min Frequency => $((min/1000)) Mhz             #"
 	echo "# CPU Current Frequency => $((curr/1000)) Mhz         #"
-	echo "############################################"}
+	echo "############################################"
+
+}
 
 
 function f_sync() 
@@ -259,8 +249,6 @@ case $1 in
 	
 	born)
 		echo -n  Configurando servicos ...
-		f_atualiza		
-		f_basicos
 		f_ftp
 		f_samba
 		echo Concluido.
@@ -334,7 +322,7 @@ case $1 in
 	;;
 
 	info)
-		#echo -n  Obtendo Temperatura do Sistema ...
+		#echo -n  Obtendo Info do Sistema ...
 		f_info
 		
 	;;
@@ -360,7 +348,7 @@ case $1 in
 		echo
 		echo  sync = Sincroniza Storages
 		echo
-		echo  temp = Exibe Temperatura do Sistema
+		echo  info = Exibe Info do Sistema
 		echo
 		exit 1
 
