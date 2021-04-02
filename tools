@@ -312,6 +312,7 @@ case $1 in
 		f_hora
 		f_desmonta		
 		f_perm
+		f_monta8
 		f_junta8
 		f_NAS
 		f_sync
