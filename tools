@@ -304,10 +304,8 @@ useradd -p $(openssl passwd -1 mustelide) -m ftplogan
 #redifine senha caso ja exista
 echo -e "mustelide\nmustelide" | passwd ftplogan
 ###Cria usuario FTP###
-
 	
 }
-
 
 ####Funções####
 
@@ -320,9 +318,6 @@ case $1 in
 		f_entropia
 		echo Concluido.
 	;;
-
-
-
 
 
 	born)
@@ -410,10 +405,10 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.52
+		echo Tools ver 0.53
 		echo 
 		echo 
-		echo entropia = Like start.sh 
+		echo  entropia = Like start.sh 
 		echo 
 		echo  born = Cria arquivos do FTP e SMB
 		echo 
