@@ -116,7 +116,7 @@ function f_junta8()
 #	mhddfs $D_6,$D_7 $D_2SILVER -o allow_other -o mlimit=LIMITE
 #}
 
-
+	
 function f_info() 
 {
 
@@ -126,19 +126,45 @@ function f_info()
 	min=$(</sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq)
 	curr=$(</sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq)
 	echo "$(date) @ $(hostname)"
+	echo " "
 	echo "############################################"
-	echo "#            Device                        #"
-	echo "# $(tr -d '\0' </proc/device-tree/model)              #"  
+	echo "#Dispositivo#"
+	echo "#############"
+	echo " "
+	echo "$(tr -d '\0' </proc/device-tree/model)"
+	echo "IP = $(hostname -I)"
+	echo " "
 	echo "############################################"
-	echo "#          Temp in Celsius                 #"
-	echo "# CPU => $((cpu/1000))'C                              #"
+	echo "#Temperatura#"
+	echo "#############"
+	echo " "
+	echo "CPU => $((cpu/1000))'C"
+	echo " "
 	echo "############################################"
-	echo "#          Frequency                       #"
-	echo "# CPU Max Frequency => $((max/1000)) Mhz            #"
-	echo "# CPU Min Frequency => $((min/1000)) Mhz             #"
-	echo "# CPU Current Frequency => $((curr/1000)) Mhz         #"
+	echo "#Frequencia#"
+	echo "############"
+	echo " "
+	echo "CPU Max => $((max/1000)) Mhz"
+	echo "CPU Min => $((min/1000)) Mhz"
+	echo "CPU Atual => $((curr/1000)) Mhz"
+	echo " "
 	echo "############################################"
-
+	echo "#Servicos#"
+	echo "##########"
+	echo " "
+	echo "FTP = $(systemctl show -p ActiveState vsftpd.service  | cut -d'=' -f2)"
+	echo "SMB = $(systemctl show -p ActiveState smbd  | cut -d'=' -f2)"
+	echo " "
+	echo "############################################"
+	echo "#Unidades Montadas#"
+	echo "###################"
+	echo " "
+	echo "MobyDick = $(mountpoint -q /work/rack/160 && echo "montado" || echo "desmontado")"
+	echo "Greivous = $(mountpoint -q /work/rack/163 && echo "montado" || echo "desmontado")"
+	echo "Gaveta8 = $(mountpoint -q /work/gavetas/8preta && echo "montado" || echo "desmontado")"
+	echo " "
+	echo "############################################"
+	echo " "
 }
 
 
@@ -405,7 +431,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.53
+		echo Tools ver 0.54
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
