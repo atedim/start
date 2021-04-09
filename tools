@@ -295,7 +295,8 @@ apt-get autoremove && apt-get autoclean && apt-get clean
 
 
 ###backup inicial###
-cd / && tar zcvfp etc.ORI.tgz /etc
+DATA=`date +%d%m%Y` 
+cd / && tar zcvfp $DATA.etc.ORI.tgz /etc
 ###backup inicial###
 
 
@@ -436,7 +437,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.56
+		echo Tools ver 0.57
 		echo 
 		echo 
 		echo  entropia = Like start.sh 

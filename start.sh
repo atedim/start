@@ -47,7 +47,8 @@ apt-get autoremove && apt-get autoclean && apt-get clean
 
 
 ###backup inicial###
-cd / && tar zcvfp etc.ORI.tgz /etc
+DATA=`date +%d%m%Y` 
+cd / && tar zcvfp $DATA.etc.ORI.tgz /etc
 ###backup inicial###
 
 
