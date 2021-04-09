@@ -13,10 +13,11 @@ if [ -d "/work" ]
 then
     	clear
 	echo "Sistema ja esta Pronto, nada será alterado." 
-    	echo "Atualizando O Script Tools." 
+    	echo "Atualizando o Script Tools." 
 	cd /etc/scripts
-	mv tools tools.old
-	chmod u-x tools.old
+	DATA=`date +%d%m%Y` 
+	mv tools $DATA.tools.old
+	chmod u-x *.old
 	curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools
 	chmod u+x tools
 else
