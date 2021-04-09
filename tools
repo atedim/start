@@ -330,6 +330,11 @@ useradd -p $(openssl passwd -1 mustelide) -m ftplogan
 #redifine senha caso ja exista
 echo -e "mustelide\nmustelide" | passwd ftplogan
 ###Cria usuario FTP###
+
+###Desabilita auto-start FTP###
+systemctl disable vsftpd.service
+###Desabilita auto-start FTP###
+
 	
 }
 
@@ -431,7 +436,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.54
+		echo Tools ver 0.56
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
