@@ -2,7 +2,7 @@ Start
 
 variavel de data e hora
 log de sincronia
-
+fazer bkp dos arquivos caso rode o entropia
 
 
 df -H --output=size,used,avail,pcent
