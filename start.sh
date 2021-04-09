@@ -83,6 +83,10 @@ useradd -p $(openssl passwd -1 mustelide) -m ftplogan
 echo -e "mustelide\nmustelide" | passwd ftplogan
 ###Cria usuario FTP###
 
+###Desabilita auto-start FTP###
+systemctl disable vsftpd.service
+###Desabilita auto-start FTP###
+
 ###Baixa Script Tools###
 mkdir /etc/scripts
 cd /etc/scripts

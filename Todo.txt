@@ -1,0 +1,24 @@
+Start
+
+variavel de data e hora
+log de sincronia
+
+
+
+df -H --output=size,used,avail,pcent
+
+
+
+df -h --output=avail
+
+Só o valor disponível 
+df -h /media --output=avail | tail -n1
+
+Só o % usado 
+df -h /media --output=pcent | tail -n1
+
+Só o tamanho total 
+df -h /media --output=size | tail -n1
+
+Só o tamanho usado
+df -h /media --output=used | tail -n1
