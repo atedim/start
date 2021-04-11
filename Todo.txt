@@ -1,8 +1,15 @@
 Start
 
-variavel de data e hora
-log de sincronia
-fazer bkp dos arquivos caso rode o entropia
+#variavel de data e hora
+#log de sincronia
+
+#fazer bkp dos arquivos caso rode o entropia
+
+
+
+Mostrar espaço nos discos no info
+Melhorar exibição info
+
 
 
 df -H --output=size,used,avail,pcent
