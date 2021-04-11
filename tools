@@ -185,6 +185,7 @@ function f_sync()
 	echo "     " >> $LOG
 #	rsync -avh --delete --info=progress2 $O_SKIPPER $D_SKIPPER
 #	rsync -avh --delete --info=progress2 $O_GDRIVE $D_GDRIVE
+	cp -fav $LOG $O_GDRIVE/Sync/$LOG
 }
 
 
@@ -450,7 +451,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.59
+		echo Tools ver 0.60 10042021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
