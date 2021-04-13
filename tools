@@ -163,9 +163,9 @@ function f_info()
 	echo "#Unidades Montadas#"
 	echo "###################"
 	echo " "
-	echo "MobyDick = $(mountpoint -q /work/rack/160 && echo "montado" || echo "desmontado")"
-	echo "Greivous = $(mountpoint -q /work/rack/163 && echo "montado" || echo "desmontado")"
-	echo "Gaveta8 = $(mountpoint -q /work/gavetas/8preta && echo "montado" || echo "desmontado")"
+	echo "MobyDick = $(mountpoint -q /work/rack/160 && echo "montado com$(df -h /work/rack/160 --output=avail | tail -n1) disponivel" || echo "desmontado")"
+	echo "Greivous = $(mountpoint -q /work/rack/163 && echo "montado com$(df -h /work/rack/163 --output=avail | tail -n1) disponivel" || echo "desmontado")"
+	echo "Gaveta8 = $(mountpoint -q /work/gavetas/8preta && echo "montado com$(df -h /work/gavetas/8preta --output=avail | tail -n1) disponivel" || echo "desmontado")"
 	echo " "
 	echo "############################################"
 	echo " "
@@ -457,7 +457,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.61 13042021
+		echo Tools ver 0.62 13042021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 

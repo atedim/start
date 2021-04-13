@@ -6,7 +6,7 @@ Start
 
 
  ?? TESTAR -- Copiar changelog de sync pro "last"
-Mostrar espaço nos discos no info
+ ?? TESTAR -- Mostrar espaço nos discos no info
 Melhorar exibição info
 verificar se montado antes de sincronizar
 rsync só com alterados
