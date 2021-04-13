@@ -2,13 +2,24 @@ Start
 
 #variavel de data e hora
 #log de sincronia
-
 #fazer bkp dos arquivos caso rode o entropia
 
 
-
+ ?? TESTAR -- Copiar changelog de sync pro "last"
 Mostrar espaço nos discos no info
 Melhorar exibição info
+verificar se montado antes de sincronizar
+rsync só com alterados
+
+
+mkdir -p /work/local
+chmod -R 777 /work
+
+
+
+
+https://serverfault.com/questions/618735/how-to-output-a-list-of-changed-files-from-rsync
+rsync --out-format='%n' src/ dest/
 
 
 

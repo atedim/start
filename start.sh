@@ -76,12 +76,14 @@ mkdir -p /work/disks/8pd{1..8}
 mkdir -p /work/gavetas/2prata
 mkdir -p /work/gavetas/{5,8}preta
 mkdir -p /work/rack/16{0..9}
+mkdir -p /work/local
+chmod -R 777 /work
 ###Cria Diretórios###
 
 
 ###Cria usuario FTP###
 useradd -p $(openssl passwd -1 mustelide) -m ftplogan
-#redifine senha caso ja exista
+#redefine senha caso ja exista
 echo -e "mustelide\nmustelide" | passwd ftplogan
 ###Cria usuario FTP###
 
