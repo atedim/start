@@ -3,10 +3,8 @@ Start
 #variavel de data e hora
 #log de sincronia
 #fazer bkp dos arquivos caso rode o entropia
-Colocar uptime no info ##
-colocar wake nas opções ##
-colocar etherwake como essencial ##
-colocar "local" nas listagens do INFO ##
+
+
 a cada 2hs montar 160 e syncronizar com local
 
 
@@ -19,23 +17,10 @@ verificar se montado antes de sincronizar
 rsync só com alterados
 
 
-mkdir -p /work/local
-chmod -R 777 /work
 
 
 
-
-mke2fs -j /dev/sdb1
-
-e2label /dev/sdb1 local
-
-mount -L local /work/local
-
-
-
-
-
-
+ping -c 1 127.0.0.1 &> /dev/null && echo success || echo fail
 
 
 https://serverfault.com/questions/618735/how-to-output-a-list-of-changed-files-from-rsync

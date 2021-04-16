@@ -27,7 +27,9 @@ SAMBA='/etc/samba/smb.conf'
 FTP='/etc/vsftpd.conf'
 DATA=`date +%d%m%Y`
 LOG=/work/$DATA-sync.txt
+LOGLOCAL=/work/$DATA-local.txt
 I7=70:4D:7B:CE:E7:E1
+LOCAL=/work/local
 
 ####Váriáveis####
 
@@ -37,6 +39,21 @@ I7=70:4D:7B:CE:E7:E1
 function f_wake() 
 {
 	etherwake $I7
+}
+
+
+function f_synclocal() 
+{
+	echo "Inicio Sync" >> $LOGLOCAL
+	echo `date`  >> $LOGLOCAL
+	mount -L local $LOCAL
+	mount -t cifs -o rw,guest,vers=2.0 $O_160 $D_160
+	rsync -avh --delete --out-format='%n' $D_160 $LOCAL
+	echo `date`  >> $LOGLOCAL
+	echo "Fim Sync" >> $LOGLOCAL
+	echo "     " >> $LOGLOCAL
+	cp -fav $LOGLOCAL $O_GDRIVE/Sync/$LOGLOCAL
+
 }
 
 
@@ -460,6 +477,18 @@ case $1 in
 		
 	;;
 
+	local)
+		#echo -n  Sincronizando discos locais ...
+		f_hora
+		f_perm
+		f_desmonta
+		f_synclocal
+		f_perm
+		f_desmonta
+		
+	;;
+
+
 	acorda)
 		#echo -n  Ligando Desktops ...
 		f_wake
@@ -470,7 +499,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.63 14042021
+		echo Tools ver 0.64 16042021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
@@ -488,6 +517,8 @@ case $1 in
 		echo  restart = Reinicia Sistema Operacional
 		echo
 		echo  sync = Sincroniza Storages
+		echo
+		echo  local = Sincroniza Storages LOCAIS
 		echo
 		echo  acorda = Liga PC por WOL
 		echo
