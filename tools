@@ -52,7 +52,7 @@ function f_synclocal()
 	echo `date`  >> $LOGLOCAL
 	echo "Fim Sync" >> $LOGLOCAL
 	echo "     " >> $LOGLOCAL
-	cp -fav $LOGLOCAL $O_GDRIVE/Sync/$LOGLOCAL
+	cp -fav $LOGLOCAL $O_GDRIVESync$LOGLOCAL
 
 }
 
