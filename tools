@@ -30,6 +30,7 @@ LOG=/work/$DATA-sync.txt
 LOGLOCAL=/work/$DATA-local.txt
 I7=70:4D:7B:CE:E7:E1
 LOCAL=/work/local
+RLOG=/work/rack/160/remoto/Sync
 
 ####Váriáveis####
 
@@ -52,7 +53,7 @@ function f_synclocal()
 	echo `date`  >> $LOGLOCAL
 	echo "Fim Sync" >> $LOGLOCAL
 	echo "     " >> $LOGLOCAL
-	cp -fav $LOGLOCAL $O_GDRIVESync$LOGLOCAL
+	cp -fav $LOGLOCAL $RLOG
 
 }
 
