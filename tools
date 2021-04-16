@@ -47,8 +47,8 @@ function f_synclocal()
 	echo "Inicio Sync" >> $LOGLOCAL
 	echo `date`  >> $LOGLOCAL
 	mount -L local $LOCAL
-	mount -t cifs -o rw,guest,vers=2.0 $O_160 $D_160
-	rsync -avh --delete --out-format='%n' $D_160 $LOCAL
+	mount -t cifs -o rw,guest,vers=2.0 $O_160 $D_160 >> $LOGLOCAL
+	rsync -avh --delete --out-format='%n' $O_GDRIVE $LOCAL >> $LOGLOCAL
 	echo `date`  >> $LOGLOCAL
 	echo "Fim Sync" >> $LOGLOCAL
 	echo "     " >> $LOGLOCAL
