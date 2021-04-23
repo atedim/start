@@ -155,44 +155,27 @@ function f_info()
 	curr=$(</sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq)
 	echo "$(date) @ $(hostname)"
 	echo " "
-	echo "############################################"
-	echo "#Dispositivo#"
-	echo "#############"
+	echo "Info do Dispositivo:"
 	echo " "
 	echo "$(tr -d '\0' </proc/device-tree/model)"
-	echo "IP = $(hostname -I)  $(uptime -p)"
+	echo "IP = $(hostname -I)"
+	echo "UPTIME  $(uptime -p)"
 	echo " "
-	echo "############################################"
-	echo "#Temperatura#"
-	echo "#############"
+	echo "Temperatura CPU => $((cpu/1000))'C"
 	echo " "
-	echo "CPU => $((cpu/1000))'C"
-	echo " "
-	echo "############################################"
-	echo "#Frequencia#"
-	echo "############"
-	echo " "
+	echo "Frequencia:"
 	echo "CPU Max => $((max/1000)) Mhz"
 	echo "CPU Min => $((min/1000)) Mhz"
 	echo "CPU Atual => $((curr/1000)) Mhz"
 	echo " "
-	echo "############################################"
-	echo "#Servicos#"
-	echo "##########"
+	echo "Servicos:"
+	echo "FTP = $(systemctl show -p ActiveState vsftpd.service  | cut -d'=' -f2)   SMB = $(systemctl show -p ActiveState smbd  | cut -d'=' -f2)"
 	echo " "
-	echo "FTP = $(systemctl show -p ActiveState vsftpd.service  | cut -d'=' -f2)"
-	echo "SMB = $(systemctl show -p ActiveState smbd  | cut -d'=' -f2)"
-	echo " "
-	echo "############################################"
-	echo "#Unidades Montadas#"
-	echo "###################"
-	echo " "
+	echo "Statusdas Unidades:"
 	echo "MobyDick = $(mountpoint -q /work/rack/160 && echo "montado com$(df -h /work/rack/160 --output=avail | tail -n1) disponivel" || echo "desmontado")"
 	echo "Greivous = $(mountpoint -q /work/rack/163 && echo "montado com$(df -h /work/rack/163 --output=avail | tail -n1) disponivel" || echo "desmontado")"
 	echo "Gaveta8 = $(mountpoint -q /work/gavetas/8preta && echo "montado com$(df -h /work/gavetas/8preta --output=avail | tail -n1) disponivel" || echo "desmontado")"
 	echo "Local = $(mountpoint -q /work/local && echo "montado com$(df -h /work/local --output=avail | tail -n1) disponivel" || echo "desmontado")"
-	echo " "
-	echo "############################################"
 	echo " "
 }
 
@@ -500,7 +483,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.64 16042021
+		echo Tools ver 0.65 23042021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
