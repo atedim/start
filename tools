@@ -153,25 +153,23 @@ function f_info()
 	max=$(</sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq)
 	min=$(</sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq)
 	curr=$(</sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq)
-	echo "$(date) @ $(hostname)"
-	echo " "
 	echo "Info do Dispositivo:"
+	echo "$(date +%d/%m/%Y-%T) UPTIME  $(uptime -p)"
 	echo " "
 	echo "$(tr -d '\0' </proc/device-tree/model)"
-	echo "IP = $(hostname -I)"
-	echo "UPTIME  $(uptime -p)"
 	echo " "
-	echo "Temperatura CPU => $((cpu/1000))'C"
+	echo "$(hostname) @ IP = $(hostname -I)"
 	echo " "
-	echo "Frequencia:"
+	echo "CPU Info:"
 	echo "CPU Max => $((max/1000)) Mhz"
 	echo "CPU Min => $((min/1000)) Mhz"
 	echo "CPU Atual => $((curr/1000)) Mhz"
+	echo "Temperatura => $((cpu/1000))'C"
 	echo " "
 	echo "Servicos:"
 	echo "FTP = $(systemctl show -p ActiveState vsftpd.service  | cut -d'=' -f2)   SMB = $(systemctl show -p ActiveState smbd  | cut -d'=' -f2)"
 	echo " "
-	echo "Statusdas Unidades:"
+	echo "Status das Unidades:"
 	echo "MobyDick = $(mountpoint -q /work/rack/160 && echo "montado com$(df -h /work/rack/160 --output=avail | tail -n1) disponivel" || echo "desmontado")"
 	echo "Greivous = $(mountpoint -q /work/rack/163 && echo "montado com$(df -h /work/rack/163 --output=avail | tail -n1) disponivel" || echo "desmontado")"
 	echo "Gaveta8 = $(mountpoint -q /work/gavetas/8preta && echo "montado com$(df -h /work/gavetas/8preta --output=avail | tail -n1) disponivel" || echo "desmontado")"
@@ -483,7 +481,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.65 23042021
+		echo Tools ver 0.64 16042021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
