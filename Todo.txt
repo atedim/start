@@ -1,18 +1,6 @@
 Start
 
-#variavel de data e hora
-#log de sincronia
-#fazer bkp dos arquivos caso rode o entropia
-
-
 a cada 2hs montar 160 e syncronizar com local
-
-
-
-
- ?? TESTAR -- Copiar changelog de sync pro "last"
- ?? TESTAR -- Mostrar espaço nos discos no info
-Melhorar exibição info
 verificar se montado antes de sincronizar
 rsync só com alterados
 
