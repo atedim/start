@@ -432,6 +432,18 @@ case $1 in
 
 	;;
 
+	qsync)
+		echo -n  Sincronizando discos ...
+		f_desmonta		
+		f_monta8
+		f_junta8
+		f_NAS
+		f_sync
+		echo Concluido.
+
+	;;
+
+
 
 	sync)
 		echo -n  Sincronizando discos ...
@@ -476,7 +488,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.65 15052021
+		echo Tools ver 0.66 15052021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
@@ -494,6 +506,7 @@ case $1 in
 		echo  restart = Reinicia Sistema Operacional
 		echo
 		echo  sync = Sincroniza Storages
+		echo  qsync = Sincroniza Rápido Storages
 		echo
 		echo  local = Sincroniza Storages LOCAIS
 		echo
