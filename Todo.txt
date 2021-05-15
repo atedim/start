@@ -2,34 +2,8 @@ Start
 
 a cada 2hs montar 160 e syncronizar com local
 verificar se montado antes de sincronizar
-rsync só com alterados
 
 
+ping -c 1 192.168.10.180 &> /dev/null && echo success || echo fail
 
-
-
-ping -c 1 127.0.0.1 &> /dev/null && echo success || echo fail
-
-
-https://serverfault.com/questions/618735/how-to-output-a-list-of-changed-files-from-rsync
-rsync --out-format='%n' src/ dest/
-
-
-
-df -H --output=size,used,avail,pcent
-
-
-
-df -h --output=avail
-
-Só o valor disponível 
-df -h /media --output=avail | tail -n1
-
-Só o % usado 
-df -h /media --output=pcent | tail -n1
-
-Só o tamanho total 
-df -h /media --output=size | tail -n1
-
-Só o tamanho usado
-df -h /media --output=used | tail -n1
+ping -c1 -w3 ${target} &>/dev/null && echo "${target} is up." || echo "${target} is down!"

@@ -130,18 +130,18 @@ function f_NAS()
 
 function f_junta8() 
 {
-	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5,$D_6,$D_7,$D_8 $D_8PRETA -o allow_other -o mlimit=LIMITE
+	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5,$D_6,$D_7,$D_8 $D_8PRETA -o allow_other -o mlimit=$LIMITE
 }
 
 #function f_junta5() 
 #{
-#	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5 $D_5PRETA -o allow_other -o mlimit=LIMITE
+#	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5 $D_5PRETA -o allow_other -o mlimit=$LIMITE
 #}
 
 
 #function f_junta2() 
 #{
-#	mhddfs $D_6,$D_7 $D_2SILVER -o allow_other -o mlimit=LIMITE
+#	mhddfs $D_6,$D_7 $D_2SILVER -o allow_other -o mlimit=$LIMITE
 #}
 
 	
@@ -165,10 +165,10 @@ function f_info()
 	echo "FTP = $(systemctl show -p ActiveState vsftpd.service  | cut -d'=' -f2)   SMB = $(systemctl show -p ActiveState smbd  | cut -d'=' -f2)"
 	echo " "
 	echo "Status das Unidades:"
-	echo "160 = $(mountpoint -q /work/rack/160 && echo "montado com$(df -h /work/rack/160 --output=avail | tail -n1) disp" || echo "desmontado")"
-	echo "163 = $(mountpoint -q /work/rack/163 && echo "montado com$(df -h /work/rack/163 --output=avail | tail -n1) disp" || echo "desmontado")"
-	echo "Gaveta8 = $(mountpoint -q /work/gavetas/8preta && echo "montado com$(df -h /work/gavetas/8preta --output=avail | tail -n1) disp" || echo "desmontado")"
-#	echo "Local = $(mountpoint -q /work/local && echo "montado com$(df -h /work/local --output=avail | tail -n1) disp" || echo "desmontado")"
+	echo "160 = $(mountpoint -q /work/rack/160 && echo "off com$(df -h /work/rack/160 --output=avail | tail -n1) disp" || echo "on")"
+	echo "163 = $(mountpoint -q /work/rack/163 && echo "off com$(df -h /work/rack/163 --output=avail | tail -n1) disp" || echo "on")"
+	echo "Gaveta8 = $(mountpoint -q /work/gavetas/8preta && echo "off com$(df -h /work/gavetas/8preta --output=avail | tail -n1) disp" || echo "on")"
+#	echo "Local = $(mountpoint -q /work/local && echo "off com$(df -h /work/local --output=avail | tail -n1) disp" || echo "on")"
 	echo " "
 }
 
@@ -476,7 +476,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.64 16042021
+		echo Tools ver 0.65 15052021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
