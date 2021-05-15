@@ -182,7 +182,8 @@ function f_sync()
 	echo `date`  >> $LOG
 	echo "Fim Sync" >> $LOG
 	echo "     " >> $LOG
-	cp -fav $LOG $O_GDRIVE/Sync/$LOG
+	#cp -fav $LOG $O_GDRIVE/Sync/$LOG
+	cp -fav $LOG $RLOG
 }
 
 
