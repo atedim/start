@@ -175,6 +175,7 @@ function f_info()
 
 function f_sync() 
 {
+if mountpoint -q -- "$D_SKIPPER"; then
 	echo "Inicio Sync" >> $LOG
 	echo `date`  >> $LOG
 	rsync -avh --delete $O_SKIPPER $D_SKIPPER >> $LOG
@@ -184,6 +185,7 @@ function f_sync()
 	echo "     " >> $LOG
 	#cp -fav $LOG $O_GDRIVE/Sync/$LOG
 	cp -fav $LOG $RLOG
+fi
 }
 
 
