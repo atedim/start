@@ -175,7 +175,7 @@ function f_info()
 
 function f_sync() 
 {
-if mountpoint -q -- "$O_SKIPPER"; then
+if mountpoint -q -- "$D_8PRETA"; then
 	echo "Inicio Sync" >> $LOG
 	echo `date`  >> $LOG
 	rsync -avh --delete $O_SKIPPER $D_SKIPPER >> $LOG
