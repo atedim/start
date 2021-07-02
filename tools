@@ -74,6 +74,12 @@ function f_atualiza()
 	chmod u+x tools
 }
 
+function f_up() 
+{
+	apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean && apt-get clean
+	
+}
+
 
 function f_monta8() 
 {
@@ -389,6 +395,14 @@ case $1 in
 		echo -n  Atualizando Sistema Operacional Completo ...
 		f_hora
 		f_atualiza
+		echo Concluido.
+
+	;;
+
+	up)
+		echo -n  Atualizando Sistema Operacional Completo ...
+		f_hora
+		f_up
 		echo Concluido.
 
 	;;
