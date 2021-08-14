@@ -500,36 +500,48 @@ case $1 in
 		f_wake
 		
 	;;
-
+	
+	15)
+		#echo -n  Sync a cada 15 dias ...
+		f_hora
+		f_up
+		f_desmonta		
+		f_monta8
+		f_junta8
+		f_NAS
+		f_sync
+		f_synclocal
+		f_perm
+		f_desmonta
+		
+	;;
 
 	*)
 		clear
 		echo 
-		echo Tools ver 0.66 15052021
+		echo Tools ver 0.67 14082021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
-		echo 
 		echo  born = Cria arquivos do FTP e SMB
 		echo 
 		echo  update = Atualiza TOTALMENTE o Sistema operacional
-		echo
-		echo  rack = Monta storages do NAS e FTP
+		echo  up = Atualiza SOMENTE o Sistema operacional
 		echo
 		echo  on = Monta DISCOS LOCAIS em JBOD
-		echo
 		echo  off = Desmonta DISCOS LOCAIS em JBOD e para FTP
-		echo
-		echo  restart = Reinicia Sistema Operacional
 		echo
 		echo  sync = Sincroniza Storages
 		echo  qsync = Sincroniza Rápido Storages
 		echo
 		echo  local = Sincroniza Storages LOCAIS
+		echo  15 = Sincroniza TOTAL Quinzenal
 		echo
 		echo  acorda = Liga PC por WOL
+		echo  rack = Monta storages do NAS e FTP
 		echo
 		echo  info = Exibe Info do Sistema
+		echo  restart = Reinicia Sistema Operacional
 		echo
 		exit 1
 
