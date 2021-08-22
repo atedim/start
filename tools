@@ -29,6 +29,7 @@ DATA=`date +%d%m%Y`
 LOG=/work/$DATA-sync.txt
 LOGLOCAL=/work/$DATA-local.txt
 I7=70:4D:7B:CE:E7:E1
+EX4100=00:90:A9:E5:93:9C
 LOCAL=/work/local
 RLOG=/work/rack/160/remoto/Sync
 
@@ -40,6 +41,12 @@ RLOG=/work/rack/160/remoto/Sync
 function f_wake() 
 {
 	etherwake $I7
+}
+
+
+function f_wake_ex() 
+{
+	etherwake $EX4100
 }
 
 
@@ -505,6 +512,8 @@ case $1 in
 		#echo -n  Sync a cada 15 dias ...
 		f_hora
 		f_up
+		f_wake_ex
+		sleep 60
 		f_desmonta		
 		f_monta8
 		f_junta8
@@ -519,7 +528,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.67 14082021
+		echo Tools ver 0.68 22082021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
