@@ -178,10 +178,10 @@ function f_info()
 	echo "FTP = $(systemctl show -p ActiveState vsftpd.service  | cut -d'=' -f2)   SMB = $(systemctl show -p ActiveState smbd  | cut -d'=' -f2)"
 	echo " "
 	echo "Status das Unidades:"
-	echo "160 = $(mountpoint -q /work/rack/160 && echo "off com$(df -h /work/rack/160 --output=avail | tail -n1) disp" || echo "on")"
-	echo "163 = $(mountpoint -q /work/rack/163 && echo "off com$(df -h /work/rack/163 --output=avail | tail -n1) disp" || echo "on")"
-	echo "Gaveta8 = $(mountpoint -q /work/gavetas/8preta && echo "off com$(df -h /work/gavetas/8preta --output=avail | tail -n1) disp" || echo "on")"
-#	echo "Local = $(mountpoint -q /work/local && echo "off com$(df -h /work/local --output=avail | tail -n1) disp" || echo "on")"
+	echo "160 = $(mountpoint -q /work/rack/160 && echo "on com$(df -h /work/rack/160 --output=avail | tail -n1) disp" || echo "off")"
+	echo "163 = $(mountpoint -q /work/rack/163 && echo "on com$(df -h /work/rack/163 --output=avail | tail -n1) disp" || echo "off")"
+	echo "Gaveta8 = $(mountpoint -q /work/gavetas/8preta && echo "on com$(df -h /work/gavetas/8preta --output=avail | tail -n1) disp" || echo "off")"
+#	echo "Local = $(mountpoint -q /work/local && echo "on com$(df -h /work/local --output=avail | tail -n1) disp" || echo "off")"
 	echo " "
 }
 
