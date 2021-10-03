@@ -513,7 +513,7 @@ case $1 in
 		f_hora
 		f_up
 		f_wake_ex
-		sleep 60
+		sleep 240
 		f_desmonta		
 		f_monta8
 		f_junta8
