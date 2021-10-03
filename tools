@@ -81,6 +81,18 @@ function f_atualiza()
 	chmod u+x tools
 }
 
+
+function q_up() 
+{
+	cd /etc/scripts
+	DATA=`date +%d%m%Y` 
+	mv tools $DATA.tools.old
+	chmod u-x *.old
+	curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools
+	chmod u+x tools
+}
+
+
 function f_up() 
 {
 	apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean && apt-get clean
@@ -414,6 +426,16 @@ case $1 in
 
 	;;
 
+
+	qup)
+		echo -n  Atualiza SOMENTE o Script TOOLS ...
+		f_hora
+		function q_up
+		echo Concluido.
+
+	;;
+
+
 		
 	rack)
 		echo -n  Montando discos NAS e iniciando servicos ...
@@ -550,7 +572,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.68 22082021
+		echo Tools ver 0.7 03102021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
@@ -558,6 +580,7 @@ case $1 in
 		echo 
 		echo  update = Atualiza TOTALMENTE o Sistema operacional
 		echo  up = Atualiza SOMENTE o Sistema operacional
+		echo  qup = Atualiza SOMENTE o Script TOOLS
 		echo
 		echo  on = Monta DISCOS LOCAIS em JBOD
 		echo  off = Desmonta DISCOS LOCAIS em JBOD e para FTP
