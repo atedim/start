@@ -430,7 +430,7 @@ case $1 in
 	qup)
 		echo -n  Atualiza SOMENTE o Script TOOLS ...
 		f_hora
-		function q_up
+		q_up
 		echo Concluido.
 
 	;;
