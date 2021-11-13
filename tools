@@ -11,6 +11,11 @@ D_5=/work/disks/8pd5
 D_6=/work/disks/8pd6
 D_7=/work/disks/8pd7
 D_8=/work/disks/8pd8
+D5_1=/work/disks/5pd1
+D5_2=/work/disks/5pd2
+D5_3=/work/disks/5pd3
+D5_4=/work/disks/5pd4
+D5_5=/work/disks/5pd5
 D_160=/work/rack/160
 D_163=/work/rack/163
 D_8PRETA=/work/gavetas/8preta
@@ -134,9 +139,9 @@ function f_desmonta()
 	umount -f $D_160
 	umount -f $D_163
 	umount -f $D_8PRETA
-	#umount -f $D_5PRETA
+	umount -f $D_5PRETA
 	#umount -f $D_2SILVER
-	#umount /work/disks/5pd[1-5]
+	umount /work/disks/5pd[1-5]
 	umount /work/disks/8pd[1-8]
 	#umount /work/disks/2sd[1-2]
 	#umount /work/rack/16[0-9]
@@ -158,10 +163,10 @@ function f_junta8()
 	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5,$D_6,$D_7,$D_8 $D_8PRETA -o allow_other -o mlimit=$LIMITE
 }
 
-#function f_junta5() 
-#{
-#	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5 $D_5PRETA -o allow_other -o mlimit=$LIMITE
-#}
+function f_junta5() 
+{
+	mhddfs $D5_1,$D5_2,$D5_3,$D5_4,$D5_5 $D_5PRETA -o allow_other -o mlimit=$LIMITE
+}
 
 
 #function f_junta2() 
@@ -242,13 +247,13 @@ guest ok = yes
 create mask = 0777
 directory mask = 0777
 
-#[5preta]
-#path = /work/gavetas/5preta
-#writable = yes
-#browseable = yes
-#guest ok = yes
-#create mask = 0777
-#directory mask = 0777
+[5preta]
+path = /work/gavetas/5preta
+writable = yes
+browseable = yes
+guest ok = yes
+create mask = 0777
+directory mask = 0777
 
 #[2prata]
 #path = /work/gavetas/2prata
@@ -435,7 +440,6 @@ case $1 in
 
 	;;
 
-
 		
 	rack)
 		echo -n  Montando discos NAS e iniciando servicos ...
@@ -472,8 +476,10 @@ case $1 in
 		f_hora		
 		f_desmonta
 		f_monta8
-		#f_perm
 		f_junta8
+		f_monta5
+		f_junta5
+		#f_perm
 		echo Concluido.
 
 	;;
@@ -572,7 +578,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.7 03102021
+		echo Tools ver 0.8 13112021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
