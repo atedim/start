@@ -558,6 +558,8 @@ case $1 in
 		echo -n  Montando unidades desnecessárias ...
 		f_monta8
 		f_junta8
+		f_monta5
+		f_junta5
 		f_NAS
 		clear
 		echo -n  Sync a cada 15 dias ...
@@ -578,7 +580,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.8 13112021
+		echo Tools ver 0.8 21112021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
