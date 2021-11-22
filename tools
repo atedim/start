@@ -200,6 +200,7 @@ function f_info()
 	echo "Gaveta8 = $(mountpoint -q /work/gavetas/8preta && echo "on com$(df -h /work/gavetas/8preta --output=avail | tail -n1) disp" || echo "off")"
 	echo "Gaveta5 = $(mountpoint -q /work/gavetas/5preta && echo "on com$(df -h /work/gavetas/5preta --output=avail | tail -n1) disp" || echo "off")"
 	echo "Local = $(mountpoint -q /work/local && echo "on com$(df -h /work/local --output=avail | tail -n1) disp" || echo "off")"
+	echo "Rasp NAS = $(ping -c 1 192.168.100.161 &> /dev/null && echo on || echo off)"
 	echo "I7 = $(ping -c 1 192.168.100.180 &> /dev/null && echo on || echo off)"
 	echo " "
 }
