@@ -414,7 +414,6 @@ case $1 in
 		f_ftp
 		f_samba
 		echo Concluido.
-
 	;;
 
 
@@ -423,7 +422,6 @@ case $1 in
 		f_hora
 		f_atualiza
 		echo Concluido.
-
 	;;
 
 	up)
@@ -431,7 +429,6 @@ case $1 in
 		f_hora
 		f_up
 		echo Concluido.
-
 	;;
 
 
@@ -440,7 +437,6 @@ case $1 in
 		f_hora
 		q_up
 		echo Concluido.
-
 	;;
 
 		
@@ -452,7 +448,7 @@ case $1 in
 		f_NAS
 		f_ftpON
 		echo Concluido.
-
+		f_info
 	;;
 
 	restart)
@@ -460,7 +456,6 @@ case $1 in
 		f_hora
 		reboot	
 		echo Concluido.
-
 	;;
 
 	off)
@@ -470,7 +465,7 @@ case $1 in
 		f_desmonta
 		f_perm
 		echo Concluido.
-
+		f_info
 	;;
 
 	
@@ -484,7 +479,7 @@ case $1 in
 		f_junta5
 		#f_perm
 		echo Concluido.
-
+		f_info
 	;;
 
 	qsync)
@@ -495,7 +490,7 @@ case $1 in
 		f_NAS
 		f_sync
 		echo Concluido.
-
+		f_info
 	;;
 
 
@@ -512,7 +507,7 @@ case $1 in
 		f_perm
 		f_desmonta
 		echo Concluido.
-
+		f_info
 	;;
 
 	info)
@@ -529,14 +524,14 @@ case $1 in
 		f_synclocal
 		f_perm
 		f_desmonta
-		
+		f_info
 	;;
 
 
 	acorda)
 		#echo -n  Ligando Desktops ...
 		f_wake
-		
+		f_info
 	;;
 	
 	15)
@@ -577,13 +572,13 @@ case $1 in
 		clear
 		echo -n  Sync a cada 15 dias ...
 		echo -n  FINALIZADO !!
-		
+		f_info
 	;;
 
 	*)
 		clear
 		echo 
-		echo Tools ver 0.8.3 22112021
+		echo Tools ver 0.8.4 11122021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
@@ -597,7 +592,7 @@ case $1 in
 		echo  off = Desmonta DISCOS LOCAIS em JBOD e para FTP
 		echo
 		echo  sync = Sincroniza Storages
-		echo  qsync = Sincroniza Rápido Storages
+		echo  qsync = Sincroniza Rapido Storages
 		echo
 		echo  local = Sincroniza Storages LOCAIS
 		echo  15 = Sincroniza TOTAL Quinzenal
