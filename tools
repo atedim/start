@@ -37,6 +37,10 @@ I7=70:4D:7B:CE:E7:E1
 EX4100=00:90:A9:E5:93:9C
 LOCAL=/work/local
 RLOG=/work/rack/160/remoto/Sync
+ORIGEM=/work/gavetas/8preta/Dados
+DESTINO=/work/gavetas/5preta/
+nao=/etc/scripts/nao.txt
+LOG8=/work/8to5-sync.txt
 
 ####Váriáveis####
 
@@ -69,6 +73,17 @@ function f_synclocal()
 
 }
 
+
+function f_8to5() 
+{
+	echo "Inicio Sync 8to5" >> $LOG8
+	echo `date`  >> $LOG8
+	#rsync -avh --delete --out-format='%n' $ORIGEM $DESTINO >> $LOG8
+	rsync -avh --delete --exclude-from=$nao $ORIGEM $DESTINO >> $LOG8
+	echo `date`  >> $LOG8
+	echo "Fim Sync" >> $LOG8
+	echo "     " >> $LOG8
+}
 
 function f_hora() 
 {
@@ -534,6 +549,23 @@ case $1 in
 		f_info
 	;;
 	
+	
+	8to5)
+		echo -n  Sincronizando discos ...
+		f_hora		
+		f_desmonta
+		f_monta8
+		f_junta8
+		f_monta5
+		f_junta5
+		#f_perm
+		f_8to5
+		f_perm
+		f_desmonta
+		f_info
+	;;
+
+
 	15)
 		echo -n  Sync a cada 15 dias ...
 		echo -n  Atualizando Data e Hora do Sistema ...		
@@ -593,6 +625,7 @@ case $1 in
 		echo
 		echo  sync = Sincroniza Storages
 		echo  qsync = Sincroniza Rapido Storages
+		echo  8to5 = Sincroniza Gaveta 8 em 5
 		echo
 		echo  local = Sincroniza Storages LOCAIS
 		echo  15 = Sincroniza TOTAL Quinzenal
