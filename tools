@@ -463,6 +463,7 @@ case $1 in
 		f_NAS
 		f_ftpON
 		echo Concluido.
+		tela exibe ftpon.png
 		f_info
 	;;
 
@@ -480,6 +481,7 @@ case $1 in
 		f_desmonta
 		f_perm
 		echo Concluido.
+		tela exibe hal9000.png
 		f_info
 	;;
 
@@ -610,7 +612,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.8.4 11122021
+		echo Tools ver 0.9.0 19122021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
