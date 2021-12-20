@@ -533,17 +533,49 @@ case $1 in
 		
 	;;
 
-	local)
+	total)
 		#echo -n  Sincronizando discos locais ...
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Atualizando Data e Hora do Sistema ...		
 		f_hora
-		f_perm
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Atualizando Sistema Operacional ...		
+		f_up
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Acordando Ex4100 - Aguarde 240s ...
+		f_wake_ex
+		sleep 240
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Desmontando unidades desnecessárias ...
 		f_desmonta
-		f_synclocal
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Montando unidades desnecessárias ...
+		f_monta8
+		f_junta8
+		f_monta5
+		f_junta5
+		f_NAS
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Iniciando Sincronia de Dados Quinzenal ...
+		f_sync
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Iniciando Sincronia de Dados Espelho...
+		f_8to5
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Aplicando permissoes aos arquivos ...
 		f_perm
 		f_desmonta
 		f_info
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  FINALIZADO !!
+		f_info
 	;;
-
 
 	acorda)
 		#echo -n  Ligando Desktops ...
@@ -612,7 +644,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.9.0 19122021
+		echo Tools ver 0.9.1 20122021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
@@ -629,8 +661,8 @@ case $1 in
 		echo  qsync = Sincroniza Rapido Storages
 		echo  8to5 = Sincroniza Gaveta 8 em 5
 		echo
-		echo  local = Sincroniza Storages LOCAIS
-		echo  15 = Sincroniza TOTAL Quinzenal
+		echo  total = Sincroniza Total Storages LOCAIS e Quinzenal
+		echo  15 = Sincroniza Quinzenal
 		echo
 		echo  acorda = Liga PC por WOL
 		echo  rack = Monta storages do NAS e FTP
