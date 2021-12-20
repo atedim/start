@@ -657,11 +657,11 @@ case $1 in
 		echo  on = Monta DISCOS LOCAIS em JBOD
 		echo  off = Desmonta DISCOS LOCAIS em JBOD e para FTP
 		echo
-		echo  sync = Sincroniza Storages
-		echo  qsync = Sincroniza Rapido Storages
-		echo  8to5 = Sincroniza Gaveta 8 em 5
-		echo
+		#echo  sync = Sincroniza Storages
+		#echo  qsync = Sincroniza Rapido Storages
+		#echo
 		echo  total = Sincroniza Total Storages LOCAIS e Quinzenal
+		echo  8to5 = Sincroniza Gaveta 8 em 5		
 		echo  15 = Sincroniza Quinzenal
 		echo
 		echo  acorda = Liga PC por WOL
