@@ -545,11 +545,11 @@ case $1 in
 		sleep 240
 		clear
 		echo -n  Sync a cada 15 dias ...
-		echo -n  Desmontando unidades desnecessárias ...
+		echo -n  Desmontando unidades desnecessarias ...
 		f_desmonta
 		clear
 		echo -n  Sync a cada 15 dias ...
-		echo -n  Montando unidades desnecessárias ...
+		echo -n  Montando unidades necessarias ...
 		f_monta8
 		f_junta8
 		f_monta5
@@ -574,7 +574,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.9.1 20122021
+		echo Tools ver 0.9.2 23122021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
