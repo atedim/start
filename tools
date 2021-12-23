@@ -2,32 +2,31 @@
 
 ####Váriáveis####
 RAIZ=/work
-#DISCOS=/work/disks
-D_1=/work/disks/8pd1
-D_2=/work/disks/8pd2
-D_3=/work/disks/8pd3
-D_4=/work/disks/8pd4
-D_5=/work/disks/8pd5
-D_6=/work/disks/8pd6
-D_7=/work/disks/8pd7
-D_8=/work/disks/8pd8
-D5_1=/work/disks/5pd1
-D5_2=/work/disks/5pd2
-D5_3=/work/disks/5pd3
-D5_4=/work/disks/5pd4
-D5_5=/work/disks/5pd5
+D_1=/work/d/8pd1
+D_2=/work/d/8pd2
+D_3=/work/d/8pd3
+D_4=/work/d/8pd4
+D_5=/work/d/8pd5
+D_6=/work/d/8pd6
+D_7=/work/d/8pd7
+D_8=/work/d/8pd8
+D5_1=/work/d/5pd1
+D5_2=/work/d/5pd2
+D5_3=/work/d/5pd3
+D5_4=/work/d/5pd4
+D5_5=/work/d/5pd5
 D_160=/work/rack/160
 D_163=/work/rack/163
-D_8PRETA=/work/gavetas/8preta
-D_5PRETA=/work/gavetas/5preta
-D_2SILVER=/work/gavetas/2prata
+D_8PRETA=/work/g/8preta
+D_5PRETA=/work/g/5preta
+D_2SILVER=/work/g/2prata
 O_160=//192.168.100.160/dados
 O_163=//192.168.100.163/dados
-LIMITE=100G
+LIMITE=25G
 O_SKIPPER=/work/rack/163/Skipper/
-D_SKIPPER=/work/gavetas/8preta/Dados
+D_SKIPPER=/work/g/8preta/Dados
 O_GDRIVE=/work/rack/160/remoto/
-D_GDRIVE=/work/gavetas/8preta/GDrive
+D_GDRIVE=/work/g/8preta/GDrive
 SAMBA='/etc/samba/smb.conf'
 FTP='/etc/vsftpd.conf'
 DATA=`date +%d%m%Y`
@@ -37,8 +36,8 @@ I7=70:4D:7B:CE:E7:E1
 EX4100=00:90:A9:E5:93:9C
 LOCAL=/work/local
 RLOG=/work/rack/160/remoto/Sync
-ORIGEM=/work/gavetas/8preta/Dados
-DESTINO=/work/gavetas/5preta/
+ORIGEM=/work/g/8preta/Dados
+DESTINO=/work/g/5preta/
 nao=/etc/scripts/nao.txt
 LOG8=/work/8to5-sync.txt
 
@@ -122,29 +121,29 @@ function f_up()
 
 function f_monta8() 
 {
-	mount -L 8pd1 /work/disks/8pd1
-	mount -L 8pd2 /work/disks/8pd2
-	mount -L 8pd3 /work/disks/8pd3
-	mount -L 8pd4 /work/disks/8pd4
-	mount -L 8pd5 /work/disks/8pd5
-	mount -L 8pd6 /work/disks/8pd6
-	mount -L 8pd7 /work/disks/8pd7
-	mount -L 8pd8 /work/disks/8pd8
+	mount -L 8pd1 $D_1
+	mount -L 8pd2 $D_2
+	mount -L 8pd3 $D_3
+	mount -L 8pd4 $D_4
+	mount -L 8pd5 $D_5
+	mount -L 8pd6 $D_6
+	mount -L 8pd7 $D_7
+	mount -L 8pd8 $D_8
 }
 
 function f_monta5() 
 {
-	mount -L 5pd1 /work/disks/5pd1
-	mount -L 5pd2 /work/disks/5pd2
-	mount -L 5pd3 /work/disks/5pd3
-	mount -L 5pd4 /work/disks/5pd4
-	mount -L 5pd5 /work/disks/5pd5
+	mount -L 5pd1 $D5_1
+	mount -L 5pd2 $D5_2
+	mount -L 5pd3 $D5_3
+	mount -L 5pd4 $D5_4
+	mount -L 5pd5 $D5_5
 }
 
 function f_monta2() 
 {
-	mount -L 2sd1 /work/disks/2sd1
-	mount -L 2sd2 /work/disks/2sd2
+	mount -L 2sd1 /work/d/2sd1
+	mount -L 2sd2 /work/d/2sd2
 }
 
 
@@ -156,9 +155,9 @@ function f_desmonta()
 	umount -f $D_8PRETA
 	umount -f $D_5PRETA
 	#umount -f $D_2SILVER
-	umount /work/disks/5pd[1-5]
-	umount /work/disks/8pd[1-8]
-	#umount /work/disks/2sd[1-2]
+	umount /work/d/5pd[1-5]
+	umount /work/d/8pd[1-8]
+	#umount /work/d/2sd[1-2]
 	#umount /work/rack/16[0-9]
 }
 
@@ -212,8 +211,8 @@ function f_info()
 	echo "Status das Unidades:"
 	echo "160 = $(mountpoint -q /work/rack/160 && echo "on com$(df -h /work/rack/160 --output=avail | tail -n1) disp" || echo "off")"
 	echo "163 = $(mountpoint -q /work/rack/163 && echo "on com$(df -h /work/rack/163 --output=avail | tail -n1) disp" || echo "off")"
-	echo "Gaveta8 = $(mountpoint -q /work/gavetas/8preta && echo "on com$(df -h /work/gavetas/8preta --output=avail | tail -n1) disp" || echo "off")"
-	echo "Gaveta5 = $(mountpoint -q /work/gavetas/5preta && echo "on com$(df -h /work/gavetas/5preta --output=avail | tail -n1) disp" || echo "off")"
+	echo "Gaveta8 = $(mountpoint -q /work/g/8preta && echo "on com$(df -h /work/g/8preta --output=avail | tail -n1) disp" || echo "off")"
+	echo "Gaveta5 = $(mountpoint -q /work/g/5preta && echo "on com$(df -h /work/g/5preta --output=avail | tail -n1) disp" || echo "off")"
 	echo "Local = $(mountpoint -q /work/local && echo "on com$(df -h /work/local --output=avail | tail -n1) disp" || echo "off")"
 	echo "Rasp NAS = $(ping -c 1 192.168.100.161 &> /dev/null && echo on || echo off)"
 	echo "I7 = $(ping -c 1 192.168.100.180 &> /dev/null && echo on || echo off)"
@@ -258,7 +257,7 @@ security = user
 map to guest = Bad Password
 
 [8preta]
-path = /work/gavetas/8preta
+path = /work/g/8preta
 writable = yes
 browseable = yes
 guest ok = yes
@@ -266,7 +265,7 @@ create mask = 0777
 directory mask = 0777
 
 [5preta]
-path = /work/gavetas/5preta
+path = /work/g/5preta
 writable = yes
 browseable = yes
 guest ok = yes
@@ -274,7 +273,7 @@ create mask = 0777
 directory mask = 0777
 
 #[2prata]
-#path = /work/gavetas/2prata
+#path = /work/g/2prata
 #writable = yes
 #browseable = yes
 #guest ok = yes
@@ -290,7 +289,7 @@ create mask = 0777
 directory mask = 0777
 
 [disks]
-path = /work/disks
+path = /work/d
 writable = yes
 browseable = no
 guest ok = yes
@@ -339,76 +338,7 @@ EOT
 
 function f_entropia() 
 {
-
-###Nao alterar aqui colocar mudanças em start.sh
-
-##atualiza sources###
-apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean && apt-get clean
-##atualiza sources###
-
-
-###instala basicos###
-apt-get install ntpdate rcconf mc rsync cifs-utils samba mhddfs htop ntfs-3g exfat-fuse exfat-utils iptraf net-tools ncdu etherwake screen vsftpd -y
-###instala basicos###
-
-
-###Atualiza data e hora###
-unlink /etc/localtime
-ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
-ntpdate pool.ntp.org
-###Atualiza data e hora###
-
-
-##limpa espaço###
-apt-get autoremove && apt-get autoclean && apt-get clean
-##limpa espaço###
-
-
-###backup inicial###
-DATA=`date +%d%m%Y` 
-cd / && tar zcvfp $DATA.etc.ORI.tgz /etc
-###backup inicial###
-
-
-###Ajusta ssh###
-sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-/etc/init.d/ssh restart
-###Ajusta ssh###
-
-
-###Insere Script to PATH###
-sed -i -e '$a\' ~/.bashrc && echo 'export PATH=$PATH:/etc/scripts' >>~/.bashrc && sed -i -e '$a\' ~/.bashrc
-###Insere Script to PATH###
-
-
-###Muda senha Root###
-echo -e "123456\n123456" | passwd root
-###Muda senha Root###
-
-###Cria Diretórios###
-mkdir -p /work/all
-mkdir -p /work/disks/2sd{1,2}
-mkdir -p /work/disks/5pd{1..5}
-mkdir -p /work/disks/8pd{1..8}
-mkdir -p /work/gavetas/2prata
-mkdir -p /work/gavetas/{5,8}preta
-mkdir -p /work/rack/16{0..9}
-mkdir -p /work/local
-chmod -R 777 /work
-###Cria Diretórios###
-
-
-###Cria usuario FTP###
-useradd -p $(openssl passwd -1 mustelide) -m ftplogan
-#redefine senha caso ja exista
-echo -e "mustelide\nmustelide" | passwd ftplogan
-###Cria usuario FTP###
-
-###Desabilita auto-start FTP###
-systemctl disable vsftpd.service
-###Desabilita auto-start FTP###
-
-	
+	bash <(curl -s https://raw.githubusercontent.com/atedim/start/main/start.sh)	
 }
 
 ####Funções####
