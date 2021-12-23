@@ -70,11 +70,11 @@ echo -e "123456\n123456" | passwd root
 
 ###Cria Diretórios###
 mkdir -p /work/all
-mkdir -p /work/disks/2sd{1,2}
-mkdir -p /work/disks/5pd{1..5}
-mkdir -p /work/disks/8pd{1..8}
-mkdir -p /work/gavetas/2prata
-mkdir -p /work/gavetas/{5,8}preta
+mkdir -p /work/d/2sd{1,2}
+mkdir -p /work/d/5pd{1..5}
+mkdir -p /work/d/8pd{1..8}
+mkdir -p /work/g/2prata
+mkdir -p /work/g/{5,8}preta
 mkdir -p /work/rack/16{0..9}
 mkdir -p /work/local
 chmod -R 777 /work
