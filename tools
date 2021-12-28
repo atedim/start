@@ -598,12 +598,11 @@ case $1 in
 		#Apenas VPN ON#
 		if [ $FTP = "off" ] && [ $VPN = "on" ]
 		then
-    			tela exibe panic.png
+   			tela exibe panic.png
     			sleep 5
     			tela exibe vpnon.png
 		fi
-		#Apenas VPN ON#
-
+#		#Apenas VPN ON#
 		clear
 	;;
 	
