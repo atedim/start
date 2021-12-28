@@ -527,7 +527,85 @@ case $1 in
 		f_info
 	;;
 
+	status)
+		####Define Status de FTP####
+	        i=`ps -eaf | grep -i vsftpd |sed '/^$/d' | wc -l`
+		echo $i >> /dev/null
+		if [ $i = 2 ]
+		then
+	    		FTP=on
+		else
+	    		FTP=off
+        	fi  
+		####Define Status de FTP####
 
+		####Define Status de VPN####
+		TARGET=192.168.1.1
+		ping -c 1 $TARGET &> /dev/null
+	    	if [[ $? -ne 0 ]]; then
+			VPN=off
+	    	else
+			VPN=on
+	    	fi
+		####Define Status de VPN####
+
+		####Define Status de Internet####
+		TARGET=8.8.8.8
+		ping -c 1 $TARGET &> /dev/null
+	    	if [[ $? -ne 0 ]]; then
+			NET=off
+	    	else
+			NET=on
+	    	fi
+		####Define Status de Internet####
+
+		#SEM NET#
+		if [ $NET = "off" ]
+		then
+    			tela exibe panic.png
+    			sleep 5
+    			tela exibe semnet.png
+		fi
+		#SEM NET#
+
+		#AMBOS ON#
+		if [ $FTP = "on" ] && [ $VPN = "on" ]
+		then
+    			tela exibe panic.png
+    			sleep 5
+			tela exibe ftpon.png
+	    		sleep 5
+    			tela exibe vpnon.png
+		fi
+		#AMBOS ON#
+
+		#AMBOS OFF#
+		if [ $FTP = "off" ] && [ $VPN = "off" ] && [ $NET = "on" ]
+		then
+    			tela exibe hal9000.png
+		fi
+		#AMBOS OFF#
+
+		#Apenas FTP ON#
+		if [ $FTP = "on" ] && [ $VPN = "off" ]
+		then
+    			tela exibe panic.png
+    		sleep 5
+    			tela exibe ftpon.png
+		fi
+		#Apenas FTP ON#
+
+		#Apenas VPN ON#
+		if [ $FTP = "off" ] && [ $VPN = "on" ]
+		then
+    			tela exibe panic.png
+    			sleep 5
+    			tela exibe vpnon.png
+		fi
+		#Apenas VPN ON#
+
+		clear
+		
 	15)
 		echo -n  Sync a cada 15 dias ...
 		echo -n  Atualizando Data e Hora do Sistema ...		
@@ -572,7 +650,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.9.4 28122021
+		echo Tools ver 0.9.5 28122021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
@@ -585,8 +663,8 @@ case $1 in
 		echo  on = Monta DISCOS LOCAIS em JBOD
 		echo  off = Desmonta DISCOS LOCAIS em JBOD e para FTP
 		echo
-		#echo  sync = Sincroniza Storages
-		#echo  qsync = Sincroniza Rapido Storages
+		#echo sync = Sincroniza Storages
+		#echo qsync = Sincroniza Rapido Storages
 		#echo
 		echo  total = Sincroniza Total Storages LOCAIS e Quinzenal
 		echo  8to5 = Sincroniza Gaveta 8 em 5		
@@ -596,6 +674,7 @@ case $1 in
 		echo  rack = Monta storages do NAS e FTP
 		echo
 		echo  info = Exibe Info do Sistema
+		echo  status = Exibe status do RACK
 		echo  restart = Reinicia Sistema Operacional
 		echo
 		exit 1
