@@ -150,15 +150,15 @@ function f_monta2()
 function f_desmonta() 
 {
 	cd /
-	umount -f $D_160
-	umount -f $D_163
-	umount -f $D_8PRETA
-	umount -f $D_5PRETA
-	#umount -f $D_2SILVER
-	umount /work/d/5pd[1-5]
-	umount /work/d/8pd[1-8]
-	#umount /work/d/2sd[1-2]
-	#umount /work/rack/16[0-9]
+	umount -q -f $D_160
+	umount -q -f $D_163
+	umount -q -f $D_8PRETA
+	umount -q -f $D_5PRETA
+	#umount -q -f $D_2SILVER
+	umount -q /work/d/5pd[1-5]
+	umount -q /work/d/8pd[1-8]
+	#umount -q /work/d/2sd[1-2]
+	#umount -q /work/rack/16[0-9]
 }
 
 function f_perm() 
