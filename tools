@@ -605,7 +605,8 @@ case $1 in
 		#Apenas VPN ON#
 
 		clear
-		
+	;;
+	
 	15)
 		echo -n  Sync a cada 15 dias ...
 		echo -n  Atualizando Data e Hora do Sistema ...		
@@ -674,7 +675,7 @@ case $1 in
 		echo  rack = Monta storages do NAS e FTP
 		echo
 		echo  info = Exibe Info do Sistema
-		echo  status = Exibe status do RACK
+		echo  status = Exibe STATUS do RACK
 		echo  restart = Reinicia Sistema Operacional
 		echo
 		exit 1
