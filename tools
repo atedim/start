@@ -58,8 +58,10 @@ function f_wake_ex()
 	ping -c 1 $TARGET &> /dev/null
 	    if [[ $? -ne 0 ]]; then
 		etherwake $EX4100
+		sleep 240
+		echo "Aguarde 240 segundos ..."
 	    else
-		Echo "EX4100 ja esta ligado"
+		echo "EX4100 ja esta ligado"
 	    fi
 #	etherwake $EX4100
 }
@@ -480,9 +482,8 @@ case $1 in
 		f_up
 		clear
 		echo -n  Sync a cada 15 dias ...
-		echo -n  Acordando Ex4100 - Aguarde 240s ...
+		echo -n  Acordando Ex4100 ...
 		f_wake_ex
-		sleep 240
 		clear
 		echo -n  Sync a cada 15 dias ...
 		echo -n  Desmontando unidades desnecessárias ...
