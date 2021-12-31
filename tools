@@ -54,7 +54,14 @@ function f_wake()
 
 function f_wake_ex() 
 {
-	etherwake $EX4100
+	TARGET=192.168.100.163
+	ping -c 1 $TARGET &> /dev/null
+	    if [[ $? -ne 0 ]]; then
+		etherwake $EX4100
+	    else
+		Echo "EX4100 ja esta ligado"
+	    fi
+#	etherwake $EX4100
 }
 
 
@@ -648,7 +655,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.9.5 28122021
+		echo Tools ver 0.9.6 30122021
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
