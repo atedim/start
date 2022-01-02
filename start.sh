@@ -32,7 +32,7 @@ apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean 
 
 ###instala basicos###
 #apt-get install ntpdate rcconf mc rsync cifs-utils samba mhddfs htop ntfs-3g exfat-fuse exfat-utils iptraf net-tools ncdu etherwake screen vsftpd -y
-apt-get install ntpdate rcconf mc rsync cifs-utils samba mhddfs htop iptraf net-tools gdu etherwake screen vsftpd -y
+apt-get install ntpdate rcconf mc rsync cifs-utils samba mergerfs htop iptraf net-tools gdu etherwake screen vsftpd -y
 ###instala basicos###
 
 
