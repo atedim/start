@@ -183,14 +183,14 @@ function f_NAS()
 
 function f_junta8() 
 {
-	mhddfs $D_1,$D_2,$D_3,$D_4,$D_5,$D_6,$D_7,$D_8 $D_8PRETA -o allow_other -o mlimit=$LIMITE
-	#mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D_1:$D_2:$D_3:$D_4:$D_5:$D_6:$D_7:$D_8 $D_8PRETA
+	#mhddfs $D_1,$D_2,$D_3,$D_4,$D_5,$D_6,$D_7,$D_8 $D_8PRETA -o allow_other -o mlimit=$LIMITE
+	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D_1:$D_2:$D_3:$D_4:$D_5:$D_6:$D_7:$D_8 $D_8PRETA
 }
 
 function f_junta5() 
 {
-	mhddfs $D5_1,$D5_2,$D5_3,$D5_4,$D5_5 $D_5PRETA -o allow_other -o mlimit=$LIMITE
-	#mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D5_1:$D5_2:$D5_3:$D5_4:$D5_5 $D_5PRETA
+	#mhddfs $D5_1,$D5_2,$D5_3,$D5_4,$D5_5 $D_5PRETA -o allow_other -o mlimit=$LIMITE
+	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D5_1:$D5_2:$D5_3:$D5_4:$D5_5 $D_5PRETA
 }
 
 
@@ -624,7 +624,6 @@ case $1 in
 		echo -n  Sync a cada 15 dias ...
 		echo -n  Acordando Ex4100 - Aguarde 240s ...
 		f_wake_ex
-		sleep 240
 		clear
 		echo -n  Sync a cada 15 dias ...
 		echo -n  Desmontando unidades desnecessarias ...
@@ -634,8 +633,8 @@ case $1 in
 		echo -n  Montando unidades necessarias ...
 		f_monta8
 		f_junta8
-		f_monta5
-		f_junta5
+		#f_monta5
+		#f_junta5
 		f_NAS
 		clear
 		echo -n  Sync a cada 15 dias ...
