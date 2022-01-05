@@ -91,6 +91,10 @@ echo -e "mustelide\nmustelide" | passwd ftplogan
 systemctl disable vsftpd.service
 ###Desabilita auto-start FTP###
 
+###Desliga o Wifi e Bluetooth###
+rfkill block wifi && rfkill block bluetooth
+###Desliga o Wifi e Bluetooth###
+
 ###Baixa Script Tools###
 mkdir /etc/scripts
 cd /etc/scripts
@@ -98,9 +102,22 @@ curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools
 chmod u+x tools
 ###Baixa Script Tools###
 
+###Cria o nao.txt###
+cd /etc/scripts/ && touch nao.txt
+###Cria o nao.txt###
+
+###Ajusta permissao da pasta Scripts###
+chmod -R 777 /etc/scripts
+###Ajusta permissao da pasta Scripts###
+
+###Executa o Script Tools###
+cd /etc/scripts/ && ./tools born
+###Executa o Script Tools###
+
+
 ###Tudo Pronto###
 echo "Sistema Ajustado."
-echo "Reinicie o sistema e execute o script TOOLS."
+#echo "Reinicie o sistema e execute o script TOOLS."
 ###Tudo Pronto###
 
 
