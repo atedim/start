@@ -31,15 +31,13 @@ SAMBA='/etc/samba/smb.conf'
 FTP='/etc/vsftpd.conf'
 DATA=`date +%d%m%Y`
 LOG=/work/$DATA-sync.txt
-LOGLOCAL=/work/$DATA-local.txt
 I7=70:4D:7B:CE:E7:E1
 EX4100=00:90:A9:E5:93:9C
-LOCAL=/work/local
 RLOG=/work/rack/160/remoto/Sync
 ORIGEM=/work/g/8preta/Dados
 DESTINO=/work/g/5preta/
 nao=/etc/scripts/nao.txt
-LOG8=/work/8to5-sync.txt
+
 
 ####Váriáveis####
 
@@ -59,56 +57,27 @@ function f_wake_ex()
 	    if [[ $? -ne 0 ]]; then
 		etherwake $EX4100
 		sleep 240
-		echo "Aguarde 240 segundos ..."
+		echo -n "Aguarde 240 segundos ..."
 	    else
-		echo "EX4100 ja esta ligado"
+		echo -n "EX4100 ja esta ligado"
 	    fi
-#	etherwake $EX4100
-}
-
-
-function f_synclocal() 
-{
-	echo "Inicio Sync" >> $LOGLOCAL
-	echo `date`  >> $LOGLOCAL
-	mount -L local $LOCAL
-	mount -t cifs -o rw,guest,vers=2.0 $O_160 $D_160 >> $LOGLOCAL
-	rsync -avh --delete --out-format='%n' $O_GDRIVE $LOCAL >> $LOGLOCAL
-	echo `date`  >> $LOGLOCAL
-	echo "Fim Sync" >> $LOGLOCAL
-	echo "     " >> $LOGLOCAL
-	cp -fav $LOGLOCAL $RLOG
 
 }
-
 
 function f_8to5() 
 {
-	echo "Inicio Sync 8to5" >> $LOG8
-	echo `date`  >> $LOG8
-	#rsync -avh --delete --out-format='%n' $ORIGEM $DESTINO >> $LOG8
-	rsync -avh --delete --exclude-from=$nao $ORIGEM $DESTINO >> $LOG8
-	echo `date`  >> $LOG8
-	echo "Fim Sync" >> $LOG8
-	echo "     " >> $LOG8
+	echo "Inicio Sync 8to5" >> $LOG
+	echo `date`  >> $LOG
+	rsync -avh --delete --exclude-from=$nao $ORIGEM $DESTINO >> $LOG
+	echo `date`  >> $LOG
+	echo "Fim Sync" >> $LOG
+	echo "     " >> $LOG
 }
 
 function f_hora() 
 {
 	ntpdate pool.ntp.org >> /dev/null
 }
-
-function f_atualiza() 
-{
-	apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean && apt-get clean
-	cd /etc/scripts
-	DATA=`date +%d%m%Y` 
-	mv tools $DATA.tools.old
-	chmod u-x *.old
-	curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools
-	chmod u+x tools
-}
-
 
 function q_up() 
 {
@@ -183,13 +152,11 @@ function f_NAS()
 
 function f_junta8() 
 {
-	#mhddfs $D_1,$D_2,$D_3,$D_4,$D_5,$D_6,$D_7,$D_8 $D_8PRETA -o allow_other -o mlimit=$LIMITE
 	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D_1:$D_2:$D_3:$D_4:$D_5:$D_6:$D_7:$D_8 $D_8PRETA
 }
 
 function f_junta5() 
 {
-	#mhddfs $D5_1,$D5_2,$D5_3,$D5_4,$D5_5 $D_5PRETA -o allow_other -o mlimit=$LIMITE
 	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D5_1:$D5_2:$D5_3:$D5_4:$D5_5 $D_5PRETA
 }
 
@@ -224,7 +191,6 @@ function f_info()
 	echo "163 = $(mountpoint -q /work/rack/163 && echo "on com$(df -h /work/rack/163 --output=avail | tail -n1) disp" || echo "off")"
 	echo "Gaveta8 = $(mountpoint -q /work/g/8preta && echo "on com$(df -h /work/g/8preta --output=avail | tail -n1) disp" || echo "off")"
 	echo "Gaveta5 = $(mountpoint -q /work/g/5preta && echo "on com$(df -h /work/g/5preta --output=avail | tail -n1) disp" || echo "off")"
-	echo "Local = $(mountpoint -q /work/local && echo "on com$(df -h /work/local --output=avail | tail -n1) disp" || echo "off")"
 	echo "Rasp NAS = $(ping -c 1 192.168.100.161 &> /dev/null && echo on || echo off)"
 	echo "I7 = $(ping -c 1 192.168.100.180 &> /dev/null && echo on || echo off)"
 	echo " "
@@ -307,14 +273,6 @@ guest ok = yes
 create mask = 0777
 directory mask = 0777
 
-[local]
-path = /work/local
-writable = yes
-browseable = yes
-guest ok = yes
-create mask = 0777
-directory mask = 0777
-
 [scripts]
 path = /etc/scripts
 writable = yes
@@ -376,12 +334,13 @@ case $1 in
 	update)
 		echo -n  Atualizando Sistema Operacional Completo ...
 		f_hora
-		f_atualiza
+		f_up		
+		q_up
 		echo Concluido.
 	;;
 
 	up)
-		echo -n  Atualizando Sistema Operacional Completo ...
+		echo -n  Atualizando SOMENTE o Sistema operacional ...
 		f_hora
 		f_up
 		echo Concluido.
@@ -389,7 +348,7 @@ case $1 in
 
 
 	qup)
-		echo -n  Atualiza SOMENTE o Script TOOLS ...
+		echo -n  Atualizando SOMENTE o Script TOOLS ...
 		f_hora
 		q_up
 		echo Concluido.
@@ -407,12 +366,6 @@ case $1 in
 		f_info
 	;;
 
-	restart)
-		echo -n  Reiniciando sistema Completo ...
-		f_hora
-		reboot	
-		echo Concluido.
-	;;
 
 	off)
 		echo -n  Desmontando discos NAS e parando servicos ...
@@ -424,7 +377,6 @@ case $1 in
 		f_info
 	;;
 
-	
 	on)
 		echo -n  Monta DISCOS LOCAIS em JBOD ...
 		f_hora		
@@ -433,34 +385,6 @@ case $1 in
 		f_junta8
 		f_monta5
 		f_junta5
-		echo Concluido.
-		f_info
-	;;
-
-	qsync)
-		echo -n  Sincronizando discos ...
-		f_desmonta		
-		f_monta8
-		f_junta8
-		f_NAS
-		f_sync
-		echo Concluido.
-		f_info
-	;;
-
-
-
-	sync)
-		echo -n  Sincronizando discos ...
-		f_hora
-		f_desmonta		
-		f_perm
-		f_monta8
-		f_junta8
-		f_NAS
-		f_sync
-		f_perm
-		f_desmonta
 		echo Concluido.
 		f_info
 	;;
@@ -515,7 +439,7 @@ case $1 in
 	;;
 
 	acorda)
-		#echo -n  Ligando Desktops ...
+		echo -n  Ligando Desktops ...
 		f_wake
 		f_info
 	;;
@@ -608,7 +532,6 @@ case $1 in
     			sleep 5
     			tela exibe vpnon.png
 		fi
-#		#Apenas VPN ON#
 		clear
 	;;
 	
@@ -640,7 +563,6 @@ case $1 in
 		echo -n  Sync a cada 15 dias ...
 		echo -n  Iniciando Sincronia de Dados ...
 		f_sync
-		f_synclocal
 		clear
 		echo -n  Sync a cada 15 dias ...
 		echo -n  Aplicando permissoes aos arquivos ...
@@ -655,7 +577,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.9.6 30122021
+		echo Tools ver 0.9.7 05012022 (CleanUP)
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
@@ -668,9 +590,6 @@ case $1 in
 		echo  on = Monta DISCOS LOCAIS em JBOD
 		echo  off = Desmonta DISCOS LOCAIS em JBOD e para FTP
 		echo
-		#echo sync = Sincroniza Storages
-		#echo qsync = Sincroniza Rapido Storages
-		#echo
 		echo  total = Sincroniza Total Storages LOCAIS e Quinzenal
 		echo  8to5 = Sincroniza Gaveta 8 em 5		
 		echo  15 = Sincroniza Quinzenal
@@ -679,8 +598,7 @@ case $1 in
 		echo  rack = Monta storages do NAS e FTP
 		echo
 		echo  info = Exibe Info do Sistema
-		echo  status = Exibe STATUS do RACK
-		echo  restart = Reinicia Sistema Operacional
+		echo  status = Exibe STATUS do RACK (Funcao de Tela)
 		echo
 		exit 1
 
