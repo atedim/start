@@ -576,7 +576,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.9.7 05012022 - CleanUP
+		echo Tools ver 0.9.8 15012022
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
