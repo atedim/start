@@ -461,13 +461,12 @@ case $1 in
 
 	status)
 		####Define Status de FTP####
-	        i=`ps -eaf | grep -i vsftpd |sed '/^$/d' | wc -l`
-		echo $i >> /dev/null
-		if [ $i = 2 ]
-		then
-	    		FTP=on
+	        wget --spider --tries=1 --user=ftplogan --password=mustelide ftp://192.168.100.169/
+		if [ $? -ne 0 ]; then
+    		#echo "Failed to connect to ftp host"
+			FTP=off
 		else
-	    		FTP=off
+	    		FTP=on
         	fi  
 		####Define Status de FTP####
 
