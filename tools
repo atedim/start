@@ -579,7 +579,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.9.8 15012022
+		echo Tools ver 0.9.9 15032022
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
