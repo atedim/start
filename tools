@@ -2,6 +2,7 @@
 
 ####Váriáveis####
 RAIZ=/work
+GAVETA=/work/g
 D_1=/work/d/8pd1
 D_2=/work/d/8pd2
 D_3=/work/d/8pd3
@@ -31,9 +32,10 @@ SAMBA='/etc/samba/smb.conf'
 FTP='/etc/vsftpd.conf'
 DATA=`date +%d%m%Y`
 LOG=/work/$DATA-sync.txt
-I7=70:4D:7B:CE:E7:E1
+#I7=70:4D:7B:CE:E7:E1
+MAINI5=3C:7C:3F:3B:57:2E
 EX4100=00:90:A9:E5:93:9C
-RLOG=/work/rack/160/remoto/Sync
+RLOG=/work/rack/160/remoto/Sync.txt
 ORIGEM=/work/g/8preta/Dados
 DESTINO=/work/g/5preta/
 nao=/etc/scripts/nao.txt
@@ -46,7 +48,7 @@ nao=/etc/scripts/nao.txt
 
 function f_wake() 
 {
-	etherwake $I7
+	etherwake $MAINI5
 }
 
 
@@ -142,6 +144,7 @@ function f_desmonta()
 function f_perm() 
 {
 	chmod -R 777 $RAIZ
+	chown root.root -R $GAVETA
 }
 
 function f_NAS() 
@@ -192,7 +195,7 @@ function f_info()
 	echo "Gaveta8 = $(mountpoint -q /work/g/8preta && echo "on com$(df -h /work/g/8preta --output=avail | tail -n1) disp" || echo "off")"
 	echo "Gaveta5 = $(mountpoint -q /work/g/5preta && echo "on com$(df -h /work/g/5preta --output=avail | tail -n1) disp" || echo "off")"
 	echo "Rasp NAS = $(ping -c 1 192.168.100.161 &> /dev/null && echo on || echo off)"
-	echo "I7 = $(ping -c 1 192.168.100.180 &> /dev/null && echo on || echo off)"
+	echo "MainI5 = $(ping -c 1 192.168.100.180 &> /dev/null && echo on || echo off)"
 	echo " "
 }
 
@@ -410,11 +413,11 @@ case $1 in
 		f_wake_ex
 		clear
 		echo -n  Sync a cada 15 dias ...
-		echo -n  Desmontando unidades desnecessárias ...
+		echo -n  Desmontando unidades desnecessarias ...
 		f_desmonta
 		clear
 		echo -n  Sync a cada 15 dias ...
-		echo -n  Montando unidades desnecessárias ...
+		echo -n  Montando unidades necessarias ...
 		f_monta8
 		f_junta8
 		f_monta5
