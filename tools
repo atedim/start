@@ -11,15 +11,15 @@ D_5=/work/d/8pd5
 D_6=/work/d/8pd6
 D_7=/work/d/8pd7
 D_8=/work/d/8pd8
-D5_1=/work/d/5pd1
-D5_2=/work/d/5pd2
-D5_3=/work/d/5pd3
-D5_4=/work/d/5pd4
-D5_5=/work/d/5pd5
+#D5_1=/work/d/5pd1
+#D5_2=/work/d/5pd2
+#D5_3=/work/d/5pd3
+#D5_4=/work/d/5pd4
+#D5_5=/work/d/5pd5
 D_160=/work/rack/160
 D_163=/work/rack/163
 D_8PRETA=/work/g/8preta
-D_5PRETA=/work/g/5preta
+#D_5PRETA=/work/g/5preta
 D_2SILVER=/work/g/2prata
 O_160=//192.168.100.160/dados
 O_163=//192.168.100.163/dados
@@ -36,8 +36,8 @@ LOG=/work/$DATA-sync.txt
 MAINI5=3C:7C:3F:3B:57:2E
 EX4100=00:90:A9:E5:93:9C
 RLOG=/work/rack/160/remoto/Sync.txt
-ORIGEM=/work/g/8preta/Dados
-DESTINO=/work/g/5preta/
+#ORIGEM=/work/g/8preta/Dados
+#DESTINO=/work/g/5preta/
 nao=/etc/scripts/nao.txt
 
 
@@ -66,15 +66,15 @@ function f_wake_ex()
 
 }
 
-function f_8to5() 
-{
-	echo "Inicio Sync 8to5" >> $LOG
-	echo `date`  >> $LOG
-	rsync -avh --delete --exclude-from=$nao $ORIGEM $DESTINO >> $LOG
-	echo `date`  >> $LOG
-	echo "Fim Sync" >> $LOG
-	echo "     " >> $LOG
-}
+#function f_8to5() 
+#{
+#	echo "Inicio Sync 8to5" >> $LOG
+#	echo `date`  >> $LOG
+#	rsync -avh --delete --exclude-from=$nao $ORIGEM $DESTINO >> $LOG
+#	echo `date`  >> $LOG
+#	echo "Fim Sync" >> $LOG
+#	echo "     " >> $LOG
+#}
 
 function f_hora() 
 {
@@ -111,20 +111,20 @@ function f_monta8()
 	mount -L 8pd8 $D_8
 }
 
-function f_monta5() 
-{
-	mount -L 5pd1 $D5_1
-	mount -L 5pd2 $D5_2
-	mount -L 5pd3 $D5_3
-	mount -L 5pd4 $D5_4
-	mount -L 5pd5 $D5_5
-}
+#function f_monta5() 
+#{
+#	mount -L 5pd1 $D5_1
+#	mount -L 5pd2 $D5_2
+#	mount -L 5pd3 $D5_3
+#	mount -L 5pd4 $D5_4
+#	mount -L 5pd5 $D5_5
+#}
 
-function f_monta2() 
-{
-	mount -L 2sd1 /work/d/2sd1
-	mount -L 2sd2 /work/d/2sd2
-}
+#function f_monta2() 
+#{
+#	mount -L 2sd1 /work/d/2sd1
+#	mount -L 2sd2 /work/d/2sd2
+#}
 
 
 function f_desmonta() 
@@ -133,9 +133,9 @@ function f_desmonta()
 	umount -q -f $D_160
 	umount -q -f $D_163
 	umount -q -f $D_8PRETA
-	umount -q -f $D_5PRETA
+	#umount -q -f $D_5PRETA
 	#umount -q -f $D_2SILVER
-	umount -q /work/d/5pd[1-5]
+	#umount -q /work/d/5pd[1-5]
 	umount -q /work/d/8pd[1-8]
 	#umount -q /work/d/2sd[1-2]
 	umount -q /work/rack/16[0-9]
@@ -158,10 +158,10 @@ function f_junta8()
 	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D_1:$D_2:$D_3:$D_4:$D_5:$D_6:$D_7:$D_8 $D_8PRETA
 }
 
-function f_junta5() 
-{
-	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D5_1:$D5_2:$D5_3:$D5_4:$D5_5 $D_5PRETA
-}
+#function f_junta5() 
+#{
+#	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D5_1:$D5_2:$D5_3:$D5_4:$D5_5 $D_5PRETA
+#}
 
 
 #function f_junta2() 
@@ -193,8 +193,8 @@ function f_info()
 	echo "160 = $(mountpoint -q /work/rack/160 && echo "on com$(df -h /work/rack/160 --output=avail | tail -n1) disp" || echo "off")"
 	echo "163 = $(mountpoint -q /work/rack/163 && echo "on com$(df -h /work/rack/163 --output=avail | tail -n1) disp" || echo "off")"
 	echo "Gaveta8 = $(mountpoint -q /work/g/8preta && echo "on com$(df -h /work/g/8preta --output=avail | tail -n1) disp" || echo "off")"
-	echo "Gaveta5 = $(mountpoint -q /work/g/5preta && echo "on com$(df -h /work/g/5preta --output=avail | tail -n1) disp" || echo "off")"
-	echo "Rasp NAS = $(ping -c 1 192.168.100.161 &> /dev/null && echo on || echo off)"
+	#echo "Gaveta5 = $(mountpoint -q /work/g/5preta && echo "on com$(df -h /work/g/5preta --output=avail | tail -n1) disp" || echo "off")"
+	echo "Sync NAS = $(ping -c 1 192.168.100.201 &> /dev/null && echo on || echo off)"
 	echo "MainI5 = $(ping -c 1 192.168.100.180 &> /dev/null && echo on || echo off)"
 	echo " "
 }
@@ -244,13 +244,13 @@ guest ok = yes
 create mask = 0777
 directory mask = 0777
 
-[5preta]
-path = /work/g/5preta
-writable = yes
-browseable = yes
-guest ok = yes
-create mask = 0777
-directory mask = 0777
+#[5preta]
+#path = /work/g/5preta
+#writable = yes
+#browseable = yes
+#guest ok = yes
+#create mask = 0777
+#directory mask = 0777
 
 #[2prata]
 #path = /work/g/2prata
@@ -386,8 +386,8 @@ case $1 in
 		f_desmonta
 		f_monta8
 		f_junta8
-		f_monta5
-		f_junta5
+		#f_monta5
+		#f_junta5
 		echo Concluido.
 		f_info
 	;;
@@ -398,48 +398,48 @@ case $1 in
 		
 	;;
 
-	total)
-		#echo -n  Sincronizando discos locais ...
-		echo -n  Sync a cada 15 dias ...
-		echo -n  Atualizando Data e Hora do Sistema ...		
-		f_hora
-		clear
-		echo -n  Sync a cada 15 dias ...
-		echo -n  Atualizando Sistema Operacional ...		
-		f_up
-		clear
-		echo -n  Sync a cada 15 dias ...
-		echo -n  Acordando Ex4100 ...
-		f_wake_ex
-		clear
-		echo -n  Sync a cada 15 dias ...
-		echo -n  Desmontando unidades desnecessarias ...
-		f_desmonta
-		clear
-		echo -n  Sync a cada 15 dias ...
-		echo -n  Montando unidades necessarias ...
-		f_monta8
-		f_junta8
-		f_monta5
-		f_junta5
-		f_NAS
-		clear
-		echo -n  Sync a cada 15 dias ...
-		echo -n  Iniciando Sincronia de Dados Quinzenal ...
-		f_sync
-		echo -n  Sync a cada 15 dias ...
-		echo -n  Iniciando Sincronia de Dados Espelho...
-		f_8to5
-		echo -n  Sync a cada 15 dias ...
-		echo -n  Aplicando permissoes aos arquivos ...
-		f_perm
-		f_desmonta
-		f_info
-		clear
-		echo -n  Sync a cada 15 dias ...
-		echo -n  FINALIZADO !!
-		f_info
-	;;
+	#total)
+	#	#echo -n  Sincronizando discos locais ...
+	#	echo -n  Sync a cada 15 dias ...
+	#	echo -n  Atualizando Data e Hora do Sistema ...		
+	#	f_hora
+	#	clear
+	#	echo -n  Sync a cada 15 dias ...
+	#	echo -n  Atualizando Sistema Operacional ...		
+	#	f_up
+	#	clear
+	#	echo -n  Sync a cada 15 dias ...
+	#	echo -n  Acordando Ex4100 ...
+	#	f_wake_ex
+	#	clear
+	#	echo -n  Sync a cada 15 dias ...
+	#	echo -n  Desmontando unidades desnecessarias ...
+	#	f_desmonta
+	#	clear
+	#	echo -n  Sync a cada 15 dias ...
+	#	echo -n  Montando unidades necessarias ...
+	#	f_monta8
+	#	f_junta8
+	#	f_monta5
+	#	f_junta5
+	#	f_NAS
+	#	clear
+	#	echo -n  Sync a cada 15 dias ...
+	#	echo -n  Iniciando Sincronia de Dados Quinzenal ...
+	#	f_sync
+	#	echo -n  Sync a cada 15 dias ...
+	#	echo -n  Iniciando Sincronia de Dados Espelho...
+	#	f_8to5
+	#	echo -n  Sync a cada 15 dias ...
+	#	echo -n  Aplicando permissoes aos arquivos ...
+	#	f_perm
+	#	f_desmonta
+	#	f_info
+	#	clear
+	#	echo -n  Sync a cada 15 dias ...
+	#	echo -n  FINALIZADO !!
+	#	f_info
+	#;;
 
 	acorda)
 		echo -n  Ligando Desktops ...
@@ -448,19 +448,19 @@ case $1 in
 	;;
 	
 	
-	8to5)
-		echo -n  Sincronizando discos ...
-		f_hora		
-		f_desmonta
-		f_monta8
-		f_junta8
-		f_monta5
-		f_junta5
-		f_8to5
-		f_perm
-		f_desmonta
-		f_info
-	;;
+	#8to5)
+	#	echo -n  Sincronizando discos ...
+	#	f_hora		
+	#	f_desmonta
+	#	f_monta8
+	#	f_junta8
+	#	f_monta5
+	#	f_junta5
+	#	f_8to5
+	#	f_perm
+	#	f_desmonta
+	#	f_info
+	#;;
 
 	status)
 		####Define Status de FTP####
@@ -579,7 +579,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.9.9 15032022
+		echo Tools ver 0.9.9.1 12042022
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
@@ -592,9 +592,9 @@ case $1 in
 		echo  on = Monta DISCOS LOCAIS em JBOD
 		echo  off = Desmonta DISCOS LOCAIS em JBOD e para FTP
 		echo
-		echo  total = Sincroniza Total Storages LOCAIS e Quinzenal
-		echo  8to5 = Sincroniza Gaveta 8 em 5		
-		echo  15 = Sincroniza Quinzenal
+		#echo  total = Sincroniza Total Storages LOCAIS e Quinzenal
+		#echo  8to5 = Sincroniza Gaveta 8 em 5		
+		#echo  15 = Sincroniza Quinzenal
 		echo
 		echo  acorda = Liga PC por WOL
 		echo  rack = Monta storages do NAS e FTP
