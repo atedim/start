@@ -176,7 +176,7 @@ function f_junta8()
 
 function f_junta4() 
 {
-	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $E_1:$E_2:$E_3:$E_4 D_4EON
+	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $E_1:$E_2:$E_3:$E_4 $D_4EON
 }
 
 #function f_junta5() 
@@ -617,7 +617,7 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.9.9.1 12042022
+		echo Tools ver 0.9.9.2 11062022
 		echo 
 		echo 
 		echo  entropia = Like start.sh 
@@ -628,10 +628,11 @@ case $1 in
 		echo  qup = Atualiza SOMENTE o Script TOOLS
 		echo
 		echo  on = Monta DISCOS LOCAIS em JBOD
+		echo  eon = Monta Discos Eon
 		echo  off = Desmonta DISCOS LOCAIS em JBOD e para FTP
 		echo
-		#echo  total = Sincroniza Total Storages LOCAIS e Quinzenal
-		#echo  8to5 = Sincroniza Gaveta 8 em 5		
+		#echo total = Sincroniza Total Storages LOCAIS e Quinzenal
+		#echo 8to5 = Sincroniza Gaveta 8 em 5		
 		echo  15 = Sincroniza Quinzenal
 		echo
 		echo  acorda = Liga PC por WOL
