@@ -189,6 +189,12 @@ function f_junta4()
 #	mhddfs $D_6,$D_7 $D_2SILVER -o allow_other -o mlimit=$LIMITE
 #}
 
+
+function f_limpaeon() 
+{
+	find /work/g/4eon/LastGrievous -mindepth 1 -type f -mtime +733 -print0 | xargs -r0 rm --
+}
+
 	
 function f_info() 
 {
@@ -426,6 +432,7 @@ case $1 in
 		f_desmonta
 		f_monta4
 		f_junta4
+		f_limpaeon
 		echo Concluido.
 		f_info
 	;;
