@@ -92,7 +92,7 @@ systemctl disable vsftpd.service
 ###Desabilita auto-start FTP###
 
 ###Desliga o Wifi e Bluetooth###
-#rfkill block wifi && rfkill block bluetooth
+rfkill block wifi && rfkill block bluetooth
 ###Desliga o Wifi e Bluetooth###
 
 ###Baixa Script Tools###
