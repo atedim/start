@@ -1,0 +1,607 @@
+#!/bin/bash
+
+####Váriáveis####
+RAIZ=/work
+GAVETA=/work/g
+D_1=/work/d/8pd1
+D_2=/work/d/8pd2
+D_3=/work/d/8pd3
+D_4=/work/d/8pd4
+D_5=/work/d/8pd5
+D_6=/work/d/8pd6
+D_7=/work/d/8pd7
+D_8=/work/d/8pd8
+D5_1=/work/d/5pd1
+D5_2=/work/d/5pd2
+D5_3=/work/d/5pd3
+D5_4=/work/d/5pd4
+D5_5=/work/d/5pd5
+D_160=/work/rack/160
+D_163=/work/rack/163
+D_8PRETA=/work/g/8preta
+D_5PRETA=/work/g/5preta
+D_2SILVER=/work/g/2prata
+O_160=//192.168.100.160/dados
+O_163=//192.168.100.163/dados
+LIMITE=25G
+O_SKIPPER=/work/rack/163/Skipper/
+D_SKIPPER=/work/g/8preta/Dados
+O_GDRIVE=/work/rack/160/remoto/
+D_GDRIVE=/work/g/8preta/GDrive
+SAMBA='/etc/samba/smb.conf'
+FTP='/etc/vsftpd.conf'
+DATA=`date +%d%m%Y`
+LOG=/work/$DATA-sync.txt
+#I7=70:4D:7B:CE:E7:E1
+MAINI5=3C:7C:3F:3B:57:2E
+EX4100=00:90:A9:E5:93:9C
+RLOG=/work/rack/160/remoto/Sync.txt
+ORIGEM=/work/g/8preta/Dados
+DESTINO=/work/g/5preta/
+nao=/etc/scripts/nao.txt
+
+
+####Váriáveis####
+
+
+####Funções####
+
+function f_wake() 
+{
+	etherwake $MAINI5
+}
+
+
+function f_wake_ex() 
+{
+	TARGET=192.168.100.163
+	ping -c 1 $TARGET &> /dev/null
+	    if [[ $? -ne 0 ]]; then
+		etherwake $EX4100
+		sleep 240
+		echo -n "Aguarde 240 segundos ..."
+	    else
+		echo -n "EX4100 ja esta ligado"
+	    fi
+
+}
+
+function f_8to5() 
+{
+	echo "Inicio Sync 8to5" >> $LOG
+	echo `date`  >> $LOG
+	rsync -avh --delete --exclude-from=$nao $ORIGEM $DESTINO >> $LOG
+	echo `date`  >> $LOG
+	echo "Fim Sync" >> $LOG
+	echo "     " >> $LOG
+}
+
+function f_hora() 
+{
+	ntpdate pool.ntp.org >> /dev/null
+}
+
+function q_up() 
+{
+	cd /etc/scripts
+	DATA=`date +%d%m%Y` 
+	mv tools $DATA.tools.old
+	chmod u-x *.old
+	curl https://raw.githubusercontent.com/atedim/start/main/tools -o tools
+	chmod u+x tools
+}
+
+
+function f_up() 
+{
+	apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean && apt-get clean
+	
+}
+
+
+function f_monta8() 
+{
+	mount -L 8pd1 $D_1
+	mount -L 8pd2 $D_2
+	mount -L 8pd3 $D_3
+	mount -L 8pd4 $D_4
+	mount -L 8pd5 $D_5
+	mount -L 8pd6 $D_6
+	mount -L 8pd7 $D_7
+	mount -L 8pd8 $D_8
+}
+
+function f_monta5() 
+{
+	mount -L 5pd1 $D5_1
+	mount -L 5pd2 $D5_2
+	mount -L 5pd3 $D5_3
+	mount -L 5pd4 $D5_4
+	mount -L 5pd5 $D5_5
+}
+
+function f_monta2() 
+{
+	mount -L 2sd1 /work/d/2sd1
+	mount -L 2sd2 /work/d/2sd2
+}
+
+
+function f_desmonta() 
+{
+	cd /
+	umount -q -f $D_160
+	umount -q -f $D_163
+	umount -q -f $D_8PRETA
+	umount -q -f $D_5PRETA
+	#umount -q -f $D_2SILVER
+	umount -q /work/d/5pd[1-5]
+	umount -q /work/d/8pd[1-8]
+	#umount -q /work/d/2sd[1-2]
+	umount -q /work/rack/16[0-9]
+}
+
+function f_perm() 
+{
+	chmod -R 777 $RAIZ
+	chown root.root -R $GAVETA
+}
+
+function f_NAS() 
+{
+	mount -t cifs -o rw,guest,vers=2.0 $O_160 $D_160
+	mount -t cifs -o rw,guest,vers=2.0 $O_163 $D_163
+}
+
+function f_junta8() 
+{
+	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D_1:$D_2:$D_3:$D_4:$D_5:$D_6:$D_7:$D_8 $D_8PRETA
+}
+
+function f_junta5() 
+{
+	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D5_1:$D5_2:$D5_3:$D5_4:$D5_5 $D_5PRETA
+}
+
+
+#function f_junta2() 
+#{
+#	mhddfs $D_6,$D_7 $D_2SILVER -o allow_other -o mlimit=$LIMITE
+#}
+
+	
+function f_info() 
+{
+
+	clear 
+	cpu=$(</sys/class/thermal/thermal_zone0/temp)
+	max=$(</sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq)
+	min=$(</sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq)
+	curr=$(</sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq)
+	echo "Info do Dispositivo:"
+	echo "$(date +%d/%m/%Y-%T) UPTIME  $(uptime -p)"	
+	echo "$(hostname) @ IP = $(hostname -I)"	
+	echo "$(tr -d '\0' </proc/device-tree/model)"	
+	echo " "
+	echo "CPU: Max:$((max/1000)) Mhz # Atual:$((curr/1000)) Mhz # Temp: $((cpu/1000))'C " 
+	#echo "CPU: Max:$((max/1000)) Mhz # Min:$((min/1000)) Mhz # Atual:$((curr/1000)) Mhz # Temp: $((cpu/1000))'C " 
+	echo " "
+	echo "Servicos:"
+	echo "FTP = $(systemctl show -p ActiveState vsftpd.service  | cut -d'=' -f2)   SMB = $(systemctl show -p ActiveState smbd  | cut -d'=' -f2)"
+	echo " "
+	echo "Status das Unidades:"
+	echo "160 = $(mountpoint -q /work/rack/160 && echo "on com$(df -h /work/rack/160 --output=avail | tail -n1) disp" || echo "off")"
+	echo "163 = $(mountpoint -q /work/rack/163 && echo "on com$(df -h /work/rack/163 --output=avail | tail -n1) disp" || echo "off")"
+	echo "Gaveta8 = $(mountpoint -q /work/g/8preta && echo "on com$(df -h /work/g/8preta --output=avail | tail -n1) disp" || echo "off")"
+	echo "Gaveta5 = $(mountpoint -q /work/g/5preta && echo "on com$(df -h /work/g/5preta --output=avail | tail -n1) disp" || echo "off")"
+	echo "Rasp NAS = $(ping -c 1 192.168.100.161 &> /dev/null && echo on || echo off)"
+	echo "MainI5 = $(ping -c 1 192.168.100.180 &> /dev/null && echo on || echo off)"
+	echo " "
+}
+
+
+function f_sync() 
+{
+if mountpoint -q -- "$D_8PRETA"; then
+	echo "Inicio Sync" >> $LOG
+	echo `date`  >> $LOG
+	rsync -avh --delete $O_SKIPPER $D_SKIPPER >> $LOG
+	rsync -avh --delete $O_GDRIVE $D_GDRIVE >> $LOG
+	echo `date`  >> $LOG
+	echo "Fim Sync" >> $LOG
+	echo "     " >> $LOG
+	#cp -fav $LOG $O_GDRIVE/Sync/$LOG
+	cp -fav $LOG $RLOG
+fi
+}
+
+
+function f_ftpON() 
+{
+	/etc/init.d/vsftpd start
+}
+
+function f_ftpOFF() 
+{
+	/etc/init.d/vsftpd stop
+}
+
+function f_samba() 
+{
+	cat > $SAMBA <<EOT 
+
+[global]
+workgroup = workgroup
+server role = standalone server
+security = user
+map to guest = Bad Password
+
+[8preta]
+path = /work/g/8preta
+writable = yes
+browseable = yes
+guest ok = yes
+create mask = 0777
+directory mask = 0777
+
+[5preta]
+path = /work/g/5preta
+writable = yes
+browseable = yes
+guest ok = yes
+create mask = 0777
+directory mask = 0777
+
+#[2prata]
+#path = /work/g/2prata
+#writable = yes
+#browseable = yes
+#guest ok = yes
+#create mask = 0777
+#directory mask = 0777
+
+[rack]
+path = /work/rack
+writable = yes
+browseable = yes
+guest ok = yes
+create mask = 0777
+directory mask = 0777
+
+[disks]
+path = /work/d
+writable = yes
+browseable = no
+guest ok = yes
+create mask = 0777
+directory mask = 0777
+
+[scripts]
+path = /etc/scripts
+writable = yes
+browseable = yes
+guest ok = yes
+create mask = 0777
+directory mask = 0777
+EOT
+}
+
+function f_ftp() 
+	{
+		cat > $FTP <<EOT 
+
+listen=yes
+anonymous_enable=NO
+local_enable=YES
+use_localtime=YES
+xferlog_enable=YES
+connect_from_port_20=YES
+idle_session_timeout=600
+ftpd_banner=Welcome to Underground FTP service.
+secure_chroot_dir=/var/run/vsftpd/empty
+pam_service_name=vsftpd
+rsa_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+rsa_private_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+ssl_enable=NO
+tcp_wrappers=YES
+local_root=/work/rack/160/Download/Fila
+EOT
+	}	
+
+function f_entropia() 
+{
+	bash <(curl -s https://raw.githubusercontent.com/atedim/start/main/start.sh)	
+}
+
+####Funções####
+
+case $1 in 
+	
+	entropia)
+		echo -n  Fazendo o que o Start.sh faz ...
+		echo -n  Pausa de 5 segundos, cancele caso tenha duvidas.
+		sleep 5
+		f_entropia
+		echo Concluido.
+	;;
+
+
+	born)
+		echo -n  Configurando servicos ...
+		f_ftp
+		f_samba
+		echo Concluido.
+	;;
+
+
+	update)
+		echo -n  Atualizando Sistema Operacional Completo ...
+		f_hora
+		f_up		
+		q_up
+		echo Concluido.
+	;;
+
+	up)
+		echo -n  Atualizando SOMENTE o Sistema operacional ...
+		f_hora
+		f_up
+		echo Concluido.
+	;;
+
+
+	qup)
+		echo -n  Atualizando SOMENTE o Script TOOLS ...
+		f_hora
+		q_up
+		echo Concluido.
+	;;
+
+		
+	rack)
+		echo -n  Montando discos NAS e iniciando servicos ...
+		f_desmonta
+		f_hora
+		f_perm
+		f_NAS
+		f_ftpON
+		echo Concluido.
+		f_info
+	;;
+
+
+	off)
+		echo -n  Desmontando discos NAS e parando servicos ...
+		f_hora
+		f_ftpOFF
+		f_desmonta
+		f_perm
+		echo Concluido.
+		f_info
+	;;
+
+	on)
+		echo -n  Monta DISCOS LOCAIS em JBOD ...
+		f_hora		
+		f_desmonta
+		f_monta8
+		f_junta8
+		f_monta5
+		f_junta5
+		echo Concluido.
+		f_info
+	;;
+
+	info)
+		#echo -n  Obtendo Info do Sistema ...
+		f_info
+		
+	;;
+
+	total)
+		#echo -n  Sincronizando discos locais ...
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Atualizando Data e Hora do Sistema ...		
+		f_hora
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Atualizando Sistema Operacional ...		
+		f_up
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Acordando Ex4100 ...
+		f_wake_ex
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Desmontando unidades desnecessarias ...
+		f_desmonta
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Montando unidades necessarias ...
+		f_monta8
+		f_junta8
+		f_monta5
+		f_junta5
+		f_NAS
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Iniciando Sincronia de Dados Quinzenal ...
+		f_sync
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Iniciando Sincronia de Dados Espelho...
+		f_8to5
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Aplicando permissoes aos arquivos ...
+		f_perm
+		f_desmonta
+		f_info
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  FINALIZADO !!
+		f_info
+	;;
+
+	acorda)
+		echo -n  Ligando Desktops ...
+		f_wake
+		f_info
+	;;
+	
+	
+	8to5)
+		echo -n  Sincronizando discos ...
+		f_hora		
+		f_desmonta
+		f_monta8
+		f_junta8
+		f_monta5
+		f_junta5
+		f_8to5
+		f_perm
+		f_desmonta
+		f_info
+	;;
+
+	status)
+		####Define Status de FTP####
+	        wget --spider --tries=1 --user=ftplogan --password=mustelide ftp://192.168.100.169/
+		if [ $? -ne 0 ]; then
+    		#echo "Failed to connect to ftp host"
+			FTP=off
+		else
+	    		FTP=on
+        	fi  
+		####Define Status de FTP####
+
+		####Define Status de VPN####
+		TARGET=192.168.1.1
+		ping -c 1 $TARGET &> /dev/null
+	    	if [[ $? -ne 0 ]]; then
+			VPN=off
+	    	else
+			VPN=on
+	    	fi
+		####Define Status de VPN####
+
+		####Define Status de Internet####
+		TARGET=8.8.8.8
+		ping -c 1 $TARGET &> /dev/null
+	    	if [[ $? -ne 0 ]]; then
+			NET=off
+	    	else
+			NET=on
+	    	fi
+		####Define Status de Internet####
+
+		#SEM NET#
+		if [ $NET = "off" ]
+		then
+    			tela exibe panic.png
+    			sleep 5
+    			tela exibe semnet.png
+		fi
+		#SEM NET#
+
+		#AMBOS ON#
+		if [ $FTP = "on" ] && [ $VPN = "on" ]
+		then
+    			tela exibe panic.png
+    			sleep 5
+			tela exibe both.png
+	    	fi
+		#AMBOS ON#
+
+		#AMBOS OFF#
+		if [ $FTP = "off" ] && [ $VPN = "off" ] && [ $NET = "on" ]
+		then
+    			tela exibe hal9000.png
+		fi
+		#AMBOS OFF#
+
+		#Apenas FTP ON#
+		if [ $FTP = "on" ] && [ $VPN = "off" ]
+		then
+    			tela exibe panic.png
+    		sleep 5
+    			tela exibe ftpon.png
+		fi
+		#Apenas FTP ON#
+
+		#Apenas VPN ON#
+		if [ $FTP = "off" ] && [ $VPN = "on" ]
+		then
+   			tela exibe panic.png
+    			sleep 5
+    			tela exibe vpnon.png
+		fi
+		clear
+	;;
+	
+	15)
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Atualizando Data e Hora do Sistema ...		
+		f_hora
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Atualizando Sistema Operacional ...		
+		f_up
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Acordando Ex4100 - Aguarde 240s ...
+		f_wake_ex
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Desmontando unidades desnecessarias ...
+		f_desmonta
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Montando unidades necessarias ...
+		f_monta8
+		f_junta8
+		#f_monta5
+		#f_junta5
+		f_NAS
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Iniciando Sincronia de Dados ...
+		f_sync
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  Aplicando permissoes aos arquivos ...
+		f_perm
+		f_desmonta
+		clear
+		echo -n  Sync a cada 15 dias ...
+		echo -n  FINALIZADO !!
+		f_info
+	;;
+
+	*)
+		clear
+		echo 
+		echo Tools ver 0.9.8 15012022
+		echo 
+		echo 
+		echo  entropia = Like start.sh 
+		echo  born = Cria arquivos do FTP e SMB
+		echo 
+		echo  update = Atualiza TOTALMENTE o Sistema operacional
+		echo  up = Atualiza SOMENTE o Sistema operacional
+		echo  qup = Atualiza SOMENTE o Script TOOLS
+		echo
+		echo  on = Monta DISCOS LOCAIS em JBOD
+		echo  off = Desmonta DISCOS LOCAIS em JBOD e para FTP
+		echo
+		echo  total = Sincroniza Total Storages LOCAIS e Quinzenal
+		echo  8to5 = Sincroniza Gaveta 8 em 5		
+		echo  15 = Sincroniza Quinzenal
+		echo
+		echo  acorda = Liga PC por WOL
+		echo  rack = Monta storages do NAS e FTP
+		echo
+		echo  info = Exibe Info do Sistema
+		echo  status = Exibe STATUS do RACK - Funcao de Tela
+		echo
+		exit 1
+
+esac
