@@ -121,6 +121,7 @@ function f_desmonta()
 	umount -q -f $D_160
 	umount -q -f $D_163
 	umount -q -f $D_8PRETA
+	umount -q -f $D_8PRETA2
 	umount -q /work/d/8pd[1-8]
 	umount -q /work/rack/16[0-9]
 }
@@ -175,9 +176,10 @@ function f_info()
 	echo "160 = $(mountpoint -q /work/rack/160 && echo "on com$(df -h /work/rack/160 --output=avail | tail -n1) disp" || echo "off")"
 	echo "163 = $(mountpoint -q /work/rack/163 && echo "on com$(df -h /work/rack/163 --output=avail | tail -n1) disp" || echo "off")"
 	echo "Gaveta8 = $(mountpoint -q /work/g/8preta && echo "on com$(df -h /work/g/8preta --output=avail | tail -n1) disp" || echo "off")"
+	echo "Gaveta82 = $(mountpoint -q /work/g/8preta2 && echo "on com$(df -h /work/g/8preta2 --output=avail | tail -n1) disp" || echo "off")"
 	#echo "Gaveta5 = $(mountpoint -q /work/g/5preta && echo "on com$(df -h /work/g/5preta --output=avail | tail -n1) disp" || echo "off")"
 	echo "Sync NAS = $(ping -c 1 192.168.100.201 &> /dev/null && echo on || echo off)"
-	echo "MainI5 = $(ping -c 1 192.168.100.180 &> /dev/null && echo on || echo off)"
+	echo "MainI5 = $(ping -c 1 192.168.102.10 &> /dev/null && echo on || echo off)"
 	echo " "
 }
 
@@ -438,18 +440,18 @@ case $1 in
 	*)
 		clear
 		echo 
-		echo Tools ver 0.9.9.2 11062022
+		echo Tools ver 0.9.9.9 16122022
 		echo 
 		echo 
 		#echo  entropia = Like start.sh 
-		echo  born = Cria arquivos do FTP e SMB
+		#echo  born = Cria arquivos do FTP e SMB
 		echo 
 		echo  update = Atualiza TOTALMENTE o Sistema operacional
 		echo  up = Atualiza SOMENTE o Sistema operacional
 		echo  qup = Atualiza SOMENTE o Script TOOLS
 		echo
 		echo  on = Monta DISCOS LOCAIS em JBOD
-		echo  eon = Monta Discos Eon
+		echo  eon = Limpa Discos Eon
 		echo  off = Desmonta DISCOS LOCAIS em JBOD e para FTP
 		echo
 		#echo total = Sincroniza Total Storages LOCAIS e Quinzenal
@@ -462,7 +464,7 @@ case $1 in
 		echo  rack = Monta storages do NAS e FTP
 		echo
 		echo  info = Exibe Info do Sistema
-		echo  status = Exibe STATUS do RACK - Funcao de Tela
+		#echo  status = Exibe STATUS do RACK - Funcao de Tela
 		echo
 		exit 1
 
