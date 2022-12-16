@@ -11,21 +11,11 @@ D_5=/work/d/8pd5
 D_6=/work/d/8pd6
 D_7=/work/d/8pd7
 D_8=/work/d/8pd8
-E_1=/work/d/eon1
-E_2=/work/d/eon2
-E_3=/work/d/eon3
-E_4=/work/d/eon4
-#D5_1=/work/d/5pd1
-#D5_2=/work/d/5pd2
-#D5_3=/work/d/5pd3
-#D5_4=/work/d/5pd4
-#D5_5=/work/d/5pd5
 D_160=/work/rack/160
 D_163=/work/rack/163
 D_8PRETA=/work/g/8preta
-D_4EON=/work/g/4eon
-#D_5PRETA=/work/g/5preta
-D_2SILVER=/work/g/2prata
+D_8PRETA2=/work/g/8preta2
+D_4EON=/mnt/md0
 O_160=//192.168.100.160/dados
 O_163=//192.168.100.163/dados
 LIMITE=25G
@@ -37,14 +27,21 @@ SAMBA='/etc/samba/smb.conf'
 FTP='/etc/vsftpd.conf'
 DATA=`date +%d%m%Y`
 LOG=/work/$DATA-sync.txt
-#I7=70:4D:7B:CE:E7:E1
-MAINI5=3C:7C:3F:3B:57:2E
+MAINI5=D8:5E:D3:F4:58:10
 EX4100=00:90:A9:E5:93:9C
+SLIM=D8:5E:D3:F3:0B:DB
+BORG=D8:5E:D3:F3:86:77
 RLOG=/work/rack/160/remoto/Sync.txt
 #ORIGEM=/work/g/8preta/Dados
 #DESTINO=/work/g/5preta/
 nao=/etc/scripts/nao.txt
 
+
+###eon
+#RAIZ=/mnt/md0
+LIMPA=/mnt/md0/LastGrievous
+PRAZO=+1201
+###eon
 
 ####Váriáveis####
 
@@ -54,6 +51,16 @@ nao=/etc/scripts/nao.txt
 function f_wake() 
 {
 	etherwake $MAINI5
+}
+
+function f_wake_borg() 
+{
+	etherwake $BORG
+}
+
+function f_wake_slim() 
+{
+	etherwake $SLIM
 }
 
 
@@ -71,15 +78,6 @@ function f_wake_ex()
 
 }
 
-#function f_8to5() 
-#{
-#	echo "Inicio Sync 8to5" >> $LOG
-#	echo `date`  >> $LOG
-#	rsync -avh --delete --exclude-from=$nao $ORIGEM $DESTINO >> $LOG
-#	echo `date`  >> $LOG
-#	echo "Fim Sync" >> $LOG
-#	echo "     " >> $LOG
-#}
 
 function f_hora() 
 {
@@ -116,30 +114,6 @@ function f_monta8()
 	mount -L 8pd8 $D_8
 }
 
-#function f_monta5() 
-#{
-#	mount -L 5pd1 $D5_1
-#	mount -L 5pd2 $D5_2
-#	mount -L 5pd3 $D5_3
-#	mount -L 5pd4 $D5_4
-#	mount -L 5pd5 $D5_5
-#}
-
-function f_monta4() 
-{
-	mount -L eon1 $E_1
-	mount -L eon2 $E_2
-	mount -L eon3 $E_3
-	mount -L eon4 $E_4
-}
-
-
-#function f_monta2() 
-#{
-#	mount -L 2sd1 /work/d/2sd1
-#	mount -L 2sd2 /work/d/2sd2
-#}
-
 
 function f_desmonta() 
 {
@@ -147,13 +121,7 @@ function f_desmonta()
 	umount -q -f $D_160
 	umount -q -f $D_163
 	umount -q -f $D_8PRETA
-	umount -q -f $D_4EON
-	#umount -q -f $D_5PRETA
-	#umount -q -f $D_2SILVER
-	#umount -q /work/d/5pd[1-5]
 	umount -q /work/d/8pd[1-8]
-	umount -q /work/d/eon[1-4]
-	#umount -q /work/d/2sd[1-2]
 	umount -q /work/rack/16[0-9]
 }
 
@@ -171,28 +139,16 @@ function f_NAS()
 
 function f_junta8() 
 {
-	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D_1:$D_2:$D_3:$D_4:$D_5:$D_6:$D_7:$D_8 $D_8PRETA
+	#mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D_1:$D_2:$D_3:$D_4:$D_5:$D_6:$D_7:$D_8 $D_8PRETA
+	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D_1:$D_2:$D_3:$D_4 $D_8PRETA
+	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D_5:$D_6:$D_7:$D_8 $D_8PRETA2
 }
-
-function f_junta4() 
-{
-	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $E_1:$E_2:$E_3:$E_4 $D_4EON
-}
-
-#function f_junta5() 
-#{
-#	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D5_1:$D5_2:$D5_3:$D5_4:$D5_5 $D_5PRETA
-#}
-
-#function f_junta2() 
-#{
-#	mhddfs $D_6,$D_7 $D_2SILVER -o allow_other -o mlimit=$LIMITE
-#}
 
 
 function f_limpaeon() 
 {
-	find /work/g/4eon/LastGrievous -mindepth 1 -type f -mtime +733 -print0 | xargs -r0 rm --
+	#find /work/g/4eon/LastGrievous -mindepth 1 -type f -mtime +733 -print0 | xargs -r0 rm --
+	find $LIMPA -mindepth 1 -type f -mtime $PRAZO -print0 | xargs -r0 rm --
 }
 
 	
@@ -269,30 +225,6 @@ browseable = yes
 guest ok = yes
 create mask = 0777
 directory mask = 0777
-
-#[5preta]
-#path = /work/g/5preta
-#writable = yes
-#browseable = yes
-#guest ok = yes
-#create mask = 0777
-#directory mask = 0777
-
-[4eon]
-path = /work/g/4eon
-writable = yes
-browseable = yes
-guest ok = yes
-create mask = 0777
-directory mask = 0777
-
-#[2prata]
-#path = /work/g/2prata
-#writable = yes
-#browseable = yes
-#guest ok = yes
-#create mask = 0777
-#directory mask = 0777
 
 [rack]
 path = /work/rack
@@ -429,9 +361,9 @@ case $1 in
 	eon)
 		echo -n  Monta Discos Eon ...
 		f_hora		
-		f_desmonta
-		f_monta4
-		f_junta4
+		#f_desmonta
+		#f_monta4
+		#f_junta4
 		f_limpaeon
 		echo Concluido.
 		f_info
@@ -443,144 +375,26 @@ case $1 in
 		
 	;;
 
-	#total)
-	#	#echo -n  Sincronizando discos locais ...
-	#	echo -n  Sync a cada 15 dias ...
-	#	echo -n  Atualizando Data e Hora do Sistema ...		
-	#	f_hora
-	#	clear
-	#	echo -n  Sync a cada 15 dias ...
-	#	echo -n  Atualizando Sistema Operacional ...		
-	#	f_up
-	#	clear
-	#	echo -n  Sync a cada 15 dias ...
-	#	echo -n  Acordando Ex4100 ...
-	#	f_wake_ex
-	#	clear
-	#	echo -n  Sync a cada 15 dias ...
-	#	echo -n  Desmontando unidades desnecessarias ...
-	#	f_desmonta
-	#	clear
-	#	echo -n  Sync a cada 15 dias ...
-	#	echo -n  Montando unidades necessarias ...
-	#	f_monta8
-	#	f_junta8
-	#	f_monta5
-	#	f_junta5
-	#	f_NAS
-	#	clear
-	#	echo -n  Sync a cada 15 dias ...
-	#	echo -n  Iniciando Sincronia de Dados Quinzenal ...
-	#	f_sync
-	#	echo -n  Sync a cada 15 dias ...
-	#	echo -n  Iniciando Sincronia de Dados Espelho...
-	#	f_8to5
-	#	echo -n  Sync a cada 15 dias ...
-	#	echo -n  Aplicando permissoes aos arquivos ...
-	#	f_perm
-	#	f_desmonta
-	#	f_info
-	#	clear
-	#	echo -n  Sync a cada 15 dias ...
-	#	echo -n  FINALIZADO !!
-	#	f_info
-	#;;
-
 	acorda)
 		echo -n  Ligando Desktops ...
 		f_wake
+		f_wake_borg
+		f_wake_slim
 		f_info
 	;;
-	
-	
-	#8to5)
-	#	echo -n  Sincronizando discos ...
-	#	f_hora		
-	#	f_desmonta
-	#	f_monta8
-	#	f_junta8
-	#	f_monta5
-	#	f_junta5
-	#	f_8to5
-	#	f_perm
-	#	f_desmonta
-	#	f_info
-	#;;
 
-	status)
-		####Define Status de FTP####
-	        wget --spider --tries=1 --user=ftplogan --password=mustelide ftp://192.168.100.169/
-		if [ $? -ne 0 ]; then
-    		#echo "Failed to connect to ftp host"
-			FTP=off
-		else
-	    		FTP=on
-        	fi  
-		####Define Status de FTP####
-
-		####Define Status de VPN####
-		TARGET=192.168.1.1
-		ping -c 1 $TARGET &> /dev/null
-	    	if [[ $? -ne 0 ]]; then
-			VPN=off
-	    	else
-			VPN=on
-	    	fi
-		####Define Status de VPN####
-
-		####Define Status de Internet####
-		TARGET=8.8.8.8
-		ping -c 1 $TARGET &> /dev/null
-	    	if [[ $? -ne 0 ]]; then
-			NET=off
-	    	else
-			NET=on
-	    	fi
-		####Define Status de Internet####
-
-		#SEM NET#
-		if [ $NET = "off" ]
-		then
-    			tela exibe panic.png
-    			sleep 5
-    			tela exibe semnet.png
-		fi
-		#SEM NET#
-
-		#AMBOS ON#
-		if [ $FTP = "on" ] && [ $VPN = "on" ]
-		then
-    			tela exibe panic.png
-    			sleep 5
-			tela exibe both.png
-	    	fi
-		#AMBOS ON#
-
-		#AMBOS OFF#
-		if [ $FTP = "off" ] && [ $VPN = "off" ] && [ $NET = "on" ]
-		then
-    			tela exibe hal9000.png
-		fi
-		#AMBOS OFF#
-
-		#Apenas FTP ON#
-		if [ $FTP = "on" ] && [ $VPN = "off" ]
-		then
-    			tela exibe panic.png
-    		sleep 5
-    			tela exibe ftpon.png
-		fi
-		#Apenas FTP ON#
-
-		#Apenas VPN ON#
-		if [ $FTP = "off" ] && [ $VPN = "on" ]
-		then
-   			tela exibe panic.png
-    			sleep 5
-    			tela exibe vpnon.png
-		fi
-		clear
+	borg)
+		echo -n  Ligando BORG ...
+		f_wake_borg
+		f_info
 	;;
+
+	slim)
+		echo -n  Ligando Slim ...
+		f_wake_slim
+		f_info
+	;;
+
 	
 	15)
 		echo -n  Sync a cada 15 dias ...
@@ -627,7 +441,7 @@ case $1 in
 		echo Tools ver 0.9.9.2 11062022
 		echo 
 		echo 
-		echo  entropia = Like start.sh 
+		#echo  entropia = Like start.sh 
 		echo  born = Cria arquivos do FTP e SMB
 		echo 
 		echo  update = Atualiza TOTALMENTE o Sistema operacional
@@ -640,9 +454,11 @@ case $1 in
 		echo
 		#echo total = Sincroniza Total Storages LOCAIS e Quinzenal
 		#echo 8to5 = Sincroniza Gaveta 8 em 5		
-		echo  15 = Sincroniza Quinzenal
-		echo
+		#echo  15 = Sincroniza Quinzenal
+		#echo
 		echo  acorda = Liga PC por WOL
+		echo  borg = Liga BORG por WOL
+		echo  slim = Liga SLIM por WOL
 		echo  rack = Monta storages do NAS e FTP
 		echo
 		echo  info = Exibe Info do Sistema
