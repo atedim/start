@@ -26,6 +26,7 @@ D_GDRIVE=/work/g/8preta/GDrive
 SAMBA='/etc/samba/smb.conf'
 FTP='/etc/vsftpd.conf'
 DATA=`date +%d%m%Y`
+interface=$(ip addr show | awk '/inet.*brd/{print $NF; exit}')
 LOG=/work/$DATA-sync.txt
 MAINI5=D8:5E:D3:F4:58:10
 EX4100=00:90:A9:E5:93:9C
@@ -50,17 +51,17 @@ PRAZO=+1201
 
 function f_wake() 
 {
-	etherwake $MAINI5
+	etherwake -i $interface $MAINI5
 }
 
 function f_wake_borg() 
 {
-	etherwake $BORG
+	etherwake -i $interface $BORG
 }
 
 function f_wake_slim() 
 {
-	etherwake $SLIM
+	etherwake -i $interface $SLIM
 }
 
 
@@ -69,7 +70,7 @@ function f_wake_ex()
 	TARGET=192.168.100.163
 	ping -c 1 $TARGET &> /dev/null
 	    if [[ $? -ne 0 ]]; then
-		etherwake $EX4100
+		etherwake -i $interface $EX4100
 		sleep 240
 		echo -n "Aguarde 240 segundos ..."
 	    else
