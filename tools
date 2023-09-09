@@ -11,11 +11,15 @@ D_5=/work/d/8pd5
 D_6=/work/d/8pd6
 D_7=/work/d/8pd7
 D_8=/work/d/8pd8
+P_1=/work/d/5pd1
+P_2=/work/d/5pd2
+P_3=/work/d/5pd3
+P_4=/work/d/5pd4
+P_5=/work/d/5pd5
 D_160=/work/rack/160
 D_163=/work/rack/163
+D_5PRETA=/work/g/5preta
 D_8PRETA=/work/g/8preta
-D_8PRETA2=/work/g/8preta2
-D_4EON=/mnt/md0
 O_160=//192.168.100.160/dados
 O_163=//192.168.100.163/dados
 LIMITE=25G
@@ -116,14 +120,25 @@ function f_monta8()
 }
 
 
+function f_monta5() 
+{
+	mount -L 5pd1 $P_1
+	mount -L 5pd2 $P_2
+	mount -L 5pd3 $P_3
+	mount -L 5pd4 $P_4
+	mount -L 5pd5 $P_5
+}
+
+
 function f_desmonta() 
 {
 	cd /
 	umount -q -f $D_160
 	umount -q -f $D_163
 	umount -q -f $D_8PRETA
-	umount -q -f $D_8PRETA2
+	umount -q -f $D_5PRETA
 	umount -q /work/d/8pd[1-8]
+	umount -q /work/d/5pd[1-5]
 	umount -q /work/rack/16[0-9]
 }
 
@@ -141,10 +156,16 @@ function f_NAS()
 
 function f_junta8() 
 {
-	#mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D_1:$D_2:$D_3:$D_4:$D_5:$D_6:$D_7:$D_8 $D_8PRETA
-	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D_1:$D_2:$D_3:$D_4 $D_8PRETA
-	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D_5:$D_6:$D_7:$D_8 $D_8PRETA2
+	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $D_1:$D_2:$D_3:$D_4:$D_5:$D_6:$D_7:$D_8 $D_8PRETA
+	
 }
+
+function f_junta5() 
+{
+	mergerfs -o defaults,allow_other,use_ino,category.create=mfs,moveonenospc=true,minfreespace=$LIMITE $P_1:$P_2:$P_3:$P_4:$P_5 $D_5PRETA
+	
+}
+
 
 
 function f_limpaeon() 
@@ -228,6 +249,15 @@ browseable = yes
 guest ok = yes
 create mask = 0777
 directory mask = 0777
+
+[5preta]
+path = /work/g/5preta
+writable = yes
+browseable = yes
+guest ok = yes
+create mask = 0777
+directory mask = 0777
+
 
 [rack]
 path = /work/rack
@@ -355,8 +385,8 @@ case $1 in
 		f_desmonta
 		f_monta8
 		f_junta8
-		#f_monta5
-		#f_junta5
+		f_monta5
+		f_junta5
 		echo Concluido.
 		f_info
 	;;
